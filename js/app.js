@@ -10,7 +10,7 @@ const descricaoInput = document.getElementById("descricaoBoneco");
 
 let usuarioAtual = null;
 
-// 🔎 DEBUG (temporário)
+// 🔎 DEBUG TEMPORÁRIO
 console.log("app.js carregado");
 console.log("loginBtn:", loginBtn);
 
@@ -28,7 +28,7 @@ onUserChange(async (user) => {
 
     userInfo.innerHTML = `
       <p>Logado como <strong>${user.displayName}</strong></p>
-      <button id="logout">Logout</button>
+      <button id="logout" type="button">Logout</button>
     `;
 
     document
@@ -58,4 +58,26 @@ form.addEventListener("submit", async (e) => {
     descricao
   });
 
-  nomeInput.value =
+  nomeInput.value = "";
+  descricaoInput.value = "";
+
+  await carregarGaleria(usuarioAtual.uid);
+});
+
+async function carregarGaleria(uid) {
+  galeria.innerHTML = "<p>Carregando sua galeria...</p>";
+
+  const bonecos = await listarBonecosDoUsuario(uid);
+
+  if (bonecos.length === 0) {
+    galeria.innerHTML = "<p>Sua galeria está vazia.</p>";
+    return;
+  }
+
+  galeria.innerHTML = bonecos.map(b => `
+    <div style="margin-bottom:16px;">
+      <strong>${b.nome}</strong><br>
+      <small>${b.descricao || ""}</small>
+    </div>
+  `).join("");
+}
