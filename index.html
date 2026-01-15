@@ -1,11 +1,68 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>unimaginext</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #0f172a;
+      color: #e5e7eb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .container {
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 24px;
+      font-size: 2rem;
+    }
+
+    button {
+      background: #ffffff;
+      color: #111827;
+      border: none;
+      padding: 14px 20px;
+      font-size: 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    button:hover {
+      background: #e5e7eb;
+    }
+  </style>
 </head>
+
 <body>
-  <h1>Hello, unimaginext 👋</h1>
-  <p>Meu site está no ar via GitHub Pages.</p>
+  <div class="container">
+    <h1>unimaginext</h1>
+
+    <button id="loginGoogle">
+      Login com Google
+    </button>
+  </div>
+
+  <script>
+    // 🔒 PLACEHOLDER
+    // Aqui entraremos com Firebase Authentication (Google)
+    // Nenhuma credencial será colocada agora
+
+    document.getElementById('loginGoogle').addEventListener('click', () => {
+      alert('Login com Google será implementado no próximo passo 🚀');
+    });
+  </script>
 </body>
 </html>
