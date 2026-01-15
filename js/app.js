@@ -19,6 +19,9 @@ const previewContainer = document.getElementById("previewContainer");
 const previewImagem = document.getElementById("previewImagem");
 const removerImagemBtn = document.getElementById("removerImagem");
 
+const userAvatar = document.getElementById("userAvatar");
+
+
 /* ===== Estado ===== */
 let usuarioAtual = null;
 
@@ -30,11 +33,30 @@ onUserChange(async (user) => {
   usuarioAtual = user;
 
   if (user) {
+    // Esconde botão Entrar
+    loginBtn.style.display = "none";
+
+    // Mostra avatar
+    userAvatar.style.display = "block";
+    userAvatar.style.backgroundImage = `url(${user.photoURL})`;
+    userAvatar.style.backgroundSize = "cover";
+
+    // Mostra ações
     fabAdd.style.display = "flex";
+
     await carregarGaleria(user.uid);
   } else {
+    // Mostra botão Entrar
+    loginBtn.style.display = "inline-block";
+
+    // Esconde avatar
+    userAvatar.style.display = "none";
+    userAvatar.style.backgroundImage = "";
+
+    // Esconde ações
     fabAdd.style.display = "none";
     galeria.innerHTML = "";
+
     fecharModal();
   }
 });
