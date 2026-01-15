@@ -20,6 +20,11 @@ button:hover {
   opacity: 0.9;
 }
 
+button[disabled] {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
 /* ===== Top Bar ===== */
 .topbar {
   position: sticky;
@@ -44,6 +49,7 @@ button:hover {
   height: 32px;
   border-radius: 50%;
   background: #e5e7eb;
+  cursor: pointer;
 }
 
 /* ===== Layout ===== */
@@ -69,29 +75,7 @@ button:hover {
   color: #6b7280;
 }
 
-/* ===== Form ===== */
-.form {
-  max-width: 400px;
-  margin-bottom: 40px;
-}
-
-.form input,
-.form textarea {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 6px;
-  border: 1px solid #e5e7eb;
-}
-
-/* ===== Preview ===== */
-.preview img {
-  width: 100%;
-  border-radius: 10px;
-  margin-bottom: 6px;
-}
-
-/* ===== Galeria (GRID) ===== */
+/* ===== Galeria ===== */
 #galeria {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -105,6 +89,7 @@ button:hover {
   padding: 12px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.06);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
 }
 
 .card:hover {
@@ -123,12 +108,6 @@ button:hover {
 .card h3 {
   margin: 0;
   font-size: 1rem;
-}
-
-.card p {
-  margin-top: 4px;
-  font-size: 0.85rem;
-  color: #6b7280;
 }
 
 /* ===== FAB ===== */
@@ -187,74 +166,61 @@ button:hover {
   padding: 4px 8px;
 }
 
-/* ===== Ações do modal ===== */
-.modal-actions {
-  display: flex;
-  gap: 12px;
-  margin-top: 12px;
+/* ===== Form ===== */
+.form input,
+.form textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
 }
 
-/* Botão principal */
+/* ===== Preview ===== */
+.preview img {
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 6px;
+}
+
+/* ===== Ações ===== */
+.modal-actions {
+  margin-top: 16px;
+}
+
 .btn-primary {
-  flex: 1;
-  background: #2563eb;
-  color: white;
-  font-weight: 500;
+  width: 100%;
   border-radius: 10px;
   padding: 12px;
+  font-weight: 500;
 }
 
-/* Botão secundário */
 .btn-secondary {
   background: #e5e7eb;
   color: #111827;
   border-radius: 10px;
-  padding: 12px;
+  padding: 10px;
 }
 
-/* Mobile: empilha os botões */
-@media (max-width: 480px) {
-  .modal-actions {
-    flex-direction: column;
+/* ===== Spinner ===== */
+.btn-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255,255,255,0.4);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  display: inline-block;
+  margin-left: 8px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
 }
 
-/* ===== Modal Detalhe ===== */
-.modal-detalhe {
-  max-width: 520px;
-}
-
-.detalhe-conteudo {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.detalhe-imagem {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  object-fit: cover;
-  border-radius: 14px;
-}
-
-.detalhe-descricao {
-  font-size: 0.95rem;
-  color: #374151;
-  line-height: 1.5;
-}
-
-/* Ações do detalhe */
-.detalhe-acoes {
-  display: flex;
-  gap: 12px;
-  margin-top: 16px;
-}
-
-.modal-actions {
-  margin-top: 16px;
-}
-
-/* ===== Skeleton Loader ===== */
+/* ===== Skeleton ===== */
 .skeleton {
   background: linear-gradient(
     90deg,
@@ -280,6 +246,26 @@ button:hover {
   border-radius: 14px;
 }
 
+/* ===== Detalhe ===== */
+.modal-detalhe {
+  max-width: 520px;
+}
 
+.detalhe-conteudo {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
 
+.detalhe-imagem {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 14px;
+}
 
+.detalhe-descricao {
+  font-size: 0.95rem;
+  color: #374151;
+  line-height: 1.5;
+}
