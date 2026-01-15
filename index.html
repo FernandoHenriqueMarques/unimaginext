@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <title>unimaginext</title>
-
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <style>
@@ -22,11 +21,6 @@
       text-align: center;
     }
 
-    h1 {
-      margin-bottom: 24px;
-      font-size: 2rem;
-    }
-
     button {
       background: #ffffff;
       color: #111827;
@@ -35,9 +29,6 @@
       font-size: 1rem;
       border-radius: 6px;
       cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
     }
 
     button:hover {
@@ -50,18 +41,58 @@
   <div class="container">
     <h1>unimaginext</h1>
 
-    <button id="loginGoogle">
-      Login com Google
-    </button>
+    <button id="loginGoogle">Login com Google</button>
+
+    <div id="userInfo" style="margin-top:20px;"></div>
   </div>
 
-  <script>
-    // 🔒 PLACEHOLDER
-    // Aqui entraremos com Firebase Authentication (Google)
-    // Nenhuma credencial será colocada agora
+  <!-- Firebase -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import {
+      getAuth,
+      GoogleAuthProvider,
+      signInWithPopup,
+      onAuthStateChanged,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-    document.getElementById('loginGoogle').addEventListener('click', () => {
-      alert('Login com Google será implementado no próximo passo 🚀');
+    // 🔥 Firebase config (seu projeto)
+    const firebaseConfig = {
+      apiKey: "AIzaSyA-awjWntNjEiMZM-RIM_93xLpEA7icYHg",
+      authDomain: "unimaginext.firebaseapp.com",
+      projectId: "unimaginext",
+      storageBucket: "unimaginext.firebasestorage.app",
+      messagingSenderId: "795705167282",
+      appId: "1:795705167282:web:3a25ac6dc1f71e6f55a8ab"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
+
+    const loginBtn = document.getElementById("loginGoogle");
+    const userInfo = document.getElementById("userInfo");
+
+    loginBtn.addEventListener("click", async () => {
+      await signInWithPopup(auth, provider);
+    });
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        loginBtn.style.display = "none";
+        userInfo.innerHTML = `
+          <p>Logado como <strong>${user.displayName}</strong></p>
+          <button id="logout">Logout</button>
+        `;
+
+        document.getElementById("logout").addEventListener("click", () => {
+          signOut(auth);
+        });
+      } else {
+        loginBtn.style.display = "inline-block";
+        userInfo.innerHTML = "";
+      }
     });
   </script>
 </body>
