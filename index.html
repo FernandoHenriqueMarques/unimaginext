@@ -9,52 +9,57 @@
 </head>
 
 <body>
-  <div class="container">
-    <h1>unimaginext 2</h1>
+  <!-- Top Bar -->
+  <header class="topbar">
+    <div class="logo">unimaginext</div>
+    <div id="userAvatar" class="avatar"></div>
+  </header>
 
-    <button id="loginGoogle" type="button">Login com Google</button>
+  <!-- Conteúdo -->
+  <main class="container">
+    <!-- Hero -->
+    <section class="hero">
+      <h1>Minha coleção</h1>
+      <p id="contadorBonecos">0 bonecos cadastrados</p>
+    </section>
 
-    <div id="userInfo"></div>
-
-    <form id="formBoneco" style="margin-top:24px; display:none;">
+    <!-- Formulário (temporariamente visível, depois vira modal) -->
+    <form id="formBoneco" class="form">
       <input
         type="text"
         id="nomeBoneco"
         placeholder="Nome do boneco"
         required
-        style="padding:8px; width:100%; margin-bottom:8px;"
       />
 
-      <div id="previewContainer" style="margin-bottom:8px; display:none;">
-        <img
-          id="previewImagem"
-          alt="Preview da imagem"
-          style="max-width:150px; display:block; margin-bottom:4px;"
-        />
-        <button type="button" id="removerImagem">
-          Remover imagem
-        </button>
-      </div>
-    
       <textarea
         id="descricaoBoneco"
         placeholder="Descrição"
-        style="padding:8px; width:100%; margin-bottom:8px;"
       ></textarea>
 
       <input
         type="file"
         id="imagemBoneco"
         accept="image/*"
-        style="margin-bottom:8px;"
       />
 
-      <button type="submit">Adicionar boneco</button>
+      <!-- Preview -->
+      <div id="previewContainer" class="preview" style="display:none;">
+        <img id="previewImagem" />
+        <button type="button" id="removerImagem">Remover imagem</button>
+      </div>
+
+      <button type="submit">Salvar boneco</button>
     </form>
 
-    <div id="galeria" style="margin-top: 24px;"></div>
-  </div>
+    <!-- Galeria -->
+    <section id="galeria"></section>
+  </main>
+
+  <!-- FAB -->
+  <button id="fabAdd" class="fab">+</button>
 
   <script type="module" src="js/app.js"></script>
 </body>
+
 </html>
