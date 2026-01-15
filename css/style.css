@@ -3,22 +3,26 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   background: #0f172a;
   color: #e5e7eb;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
+  min-height: 100vh;
 }
 
 .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+h1 {
   text-align: center;
+  margin-bottom: 24px;
 }
 
 button {
   background: #ffffff;
   color: #111827;
   border: none;
-  padding: 14px 20px;
-  font-size: 1rem;
+  padding: 10px 14px;
+  font-size: 0.9rem;
   border-radius: 6px;
   cursor: pointer;
 }
@@ -26,3 +30,39 @@ button {
 button:hover {
   background: #e5e7eb;
 }
+
+form {
+  margin-top: 24px;
+  margin-bottom: 32px;
+}
+
+input,
+textarea {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 8px;
+  border-radius: 4px;
+  border: none;
+}
+
+/* ===== GALERIA ===== */
+
+#galeria {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.card {
+  background: #020617;
+  border-radius: 10px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.card img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  obj
