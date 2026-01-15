@@ -219,3 +219,35 @@ button:hover {
   }
 }
 
+/* ===== Modal Detalhe ===== */
+.modal-detalhe {
+  max-width: 520px;
+}
+
+.detalhe-conteudo {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.detalhe-imagem {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 14px;
+}
+
+.detalhe-descricao {
+  font-size: 0.95rem;
+  color: #374151;
+  line-height: 1.5;
+}
+
+/* Ações do detalhe */
+.detalhe-acoes {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+
