@@ -164,7 +164,6 @@ async function carregarGaleria(uid) {
     <div class="card" data-index="${index}">
       ${b.imagemUrl ? `<img src="${b.imagemUrl}" />` : ""}
       <h3>${b.nome}</h3>
-      <p>${b.descricao || ""}</p>
     </div>
   `).join("");
 
