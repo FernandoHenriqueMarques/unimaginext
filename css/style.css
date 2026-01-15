@@ -52,6 +52,33 @@ button[disabled] {
   cursor: pointer;
 }
 
+/* ===== Menu do Avatar ===== */
+.avatar-menu {
+  position: absolute;
+  top: 56px;
+  right: 20px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  z-index: 20;
+}
+
+.avatar-menu button {
+  background: transparent;
+  color: #111827;
+  text-align: left;
+  padding: 10px 12px;
+  border-radius: 8px;
+}
+
+.avatar-menu button:hover {
+  background: #f3f4f6;
+}
+
 /* ===== Layout ===== */
 .container {
   max-width: 1200px;
