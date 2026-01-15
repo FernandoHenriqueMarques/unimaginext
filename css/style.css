@@ -187,3 +187,35 @@ button:hover {
   padding: 4px 8px;
 }
 
+/* ===== Ações do modal ===== */
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+/* Botão principal */
+.btn-primary {
+  flex: 1;
+  background: #2563eb;
+  color: white;
+  font-weight: 500;
+  border-radius: 10px;
+  padding: 12px;
+}
+
+/* Botão secundário */
+.btn-secondary {
+  background: #e5e7eb;
+  color: #111827;
+  border-radius: 10px;
+  padding: 12px;
+}
+
+/* Mobile: empilha os botões */
+@media (max-width: 480px) {
+  .modal-actions {
+    flex-direction: column;
+  }
+}
+
