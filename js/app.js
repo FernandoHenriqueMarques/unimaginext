@@ -16,6 +16,9 @@ const previewContainer = document.getElementById("previewContainer");
 const previewImagem = document.getElementById("previewImagem");
 const removerImagemBtn = document.getElementById("removerImagem");
 
+const contadorBonecos = document.getElementById("contadorBonecos");
+const userAvatar = document.getElementById("userAvatar");
+
 // ===== Estado =====
 let usuarioAtual = null;
 
@@ -27,7 +30,10 @@ loginBtn.addEventListener("click", () => {
 // ===== Auth state =====
 onUserChange(async (user) => {
   usuarioAtual = user;
-
+  
+  userAvatar.style.backgroundImage = `url(${user.photoURL})`;
+  userAvatar.style.backgroundSize = "cover";
+  
   if (user) {
     loginBtn.style.display = "none";
     form.style.display = "block";
@@ -121,6 +127,7 @@ async function carregarGaleria(uid) {
     return;
   }
 
+  contadorBonecos.textContent = `${bonecos.length} bonecos cadastrados`;
   galeria.innerHTML = bonecos.map(b => `
   <div class="card">
     ${
