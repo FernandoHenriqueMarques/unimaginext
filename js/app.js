@@ -2,10 +2,13 @@ import { loginWithGoogle, logout, onUserChange } from "./auth.js";
 import { listarBonecosDoUsuario, adicionarBoneco } from "./bonecos.js";
 import { uploadImagem } from "./storage.js";
 
-// ===== Elementos da UI =====
+/* ===== Elementos ===== */
 const loginBtn = document.getElementById("loginGoogle");
-const userInfo = document.getElementById("userInfo");
 const galeria = document.getElementById("galeria");
+const fabAdd = document.getElementById("fabAdd");
+
+const modalOverlay = document.getElementById("modalOverlay");
+const fecharModalBtn = document.getElementById("fecharModal");
 
 const form = document.getElementById("formBoneco");
 const nomeInput = document.getElementById("nomeBoneco");
@@ -16,64 +19,52 @@ const previewContainer = document.getElementById("previewContainer");
 const previewImagem = document.getElementById("previewImagem");
 const removerImagemBtn = document.getElementById("removerImagem");
 
-const contadorBonecos = document.getElementById("contadorBonecos");
-const userAvatar = document.getElementById("userAvatar");
-
-// ===== Estado =====
+/* ===== Estado ===== */
 let usuarioAtual = null;
 
-// ===== Login =====
-loginBtn.addEventListener("click", () => {
-  loginWithGoogle();
-});
+/* ===== Login ===== */
+loginBtn.addEventListener("click", loginWithGoogle);
 
-// ===== Auth state =====
+/* ===== Auth ===== */
 onUserChange(async (user) => {
   usuarioAtual = user;
-  
-  userAvatar.style.backgroundImage = `url(${user.photoURL})`;
-  userAvatar.style.backgroundSize = "cover";
-  
+
   if (user) {
-    loginBtn.style.display = "none";
-    form.style.display = "block";
-
-    userInfo.innerHTML = `
-      <p>Logado como <strong>${user.displayName}</strong></p>
-      <button id="logout" type="button">Logout</button>
-    `;
-
-    document
-      .getElementById("logout")
-      .addEventListener("click", logout);
-
+    fabAdd.style.display = "flex";
     await carregarGaleria(user.uid);
   } else {
-    loginBtn.style.display = "inline-block";
-    form.style.display = "none";
-    userInfo.innerHTML = "";
+    fabAdd.style.display = "none";
     galeria.innerHTML = "";
-    esconderPreview();
+    fecharModal();
   }
 });
 
-// ===== Preview da imagem =====
+/* ===== Modal ===== */
+fabAdd.addEventListener("click", abrirModal);
+fecharModalBtn.addEventListener("click", fecharModal);
+modalOverlay.addEventListener("click", (e) => {
+  if (e.target === modalOverlay) fecharModal();
+});
+
+function abrirModal() {
+  modalOverlay.style.display = "flex";
+}
+
+function fecharModal() {
+  modalOverlay.style.display = "none";
+  limparFormulario();
+}
+
+/* ===== Preview ===== */
 imagemInput.addEventListener("change", () => {
   const file = imagemInput.files[0];
+  if (!file) return esconderPreview();
 
-  if (!file) {
-    esconderPreview();
-    return;
-  }
-
-  const previewUrl = URL.createObjectURL(file);
-  previewImagem.src = previewUrl;
+  previewImagem.src = URL.createObjectURL(file);
   previewContainer.style.display = "block";
 });
 
-removerImagemBtn.addEventListener("click", () => {
-  esconderPreview();
-});
+removerImagemBtn.addEventListener("click", esconderPreview);
 
 function esconderPreview() {
   previewImagem.src = "";
@@ -81,10 +72,9 @@ function esconderPreview() {
   imagemInput.value = "";
 }
 
-// ===== Submit do formulário =====
+/* ===== Submit ===== */
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
-
   if (!usuarioAtual) return;
 
   const nome = nomeInput.value.trim();
@@ -94,7 +84,6 @@ form.addEventListener("submit", async (e) => {
   if (!nome) return;
 
   let imagemUrl = "";
-
   if (file) {
     imagemUrl = await uploadImagem({
       uid: usuarioAtual.uid,
@@ -109,16 +98,20 @@ form.addEventListener("submit", async (e) => {
     imagemUrl
   });
 
+  await carregarGaleria(usuarioAtual.uid);
+  fecharModal();
+});
+
+/* ===== Util ===== */
+function limparFormulario() {
   nomeInput.value = "";
   descricaoInput.value = "";
   esconderPreview();
+}
 
-  await carregarGaleria(usuarioAtual.uid);
-});
-
-// ===== Listagem =====
+/* ===== Galeria ===== */
 async function carregarGaleria(uid) {
-  galeria.innerHTML = "<p>Carregando sua galeria...</p>";
+  galeria.innerHTML = "<p>Carregando...</p>";
 
   const bonecos = await listarBonecosDoUsuario(uid);
 
@@ -127,16 +120,11 @@ async function carregarGaleria(uid) {
     return;
   }
 
-  contadorBonecos.textContent = `${bonecos.length} bonecos cadastrados`;
   galeria.innerHTML = bonecos.map(b => `
-  <div class="card">
-    ${
-      b.imagemUrl
-        ? `<img src="${b.imagemUrl}" alt="${b.nome}">`
-        : ""
-    }
-    <h3>${b.nome}</h3>
-    <p>${b.descricao || ""}</p>
-  </div>
-`).join("");
+    <div class="card">
+      ${b.imagemUrl ? `<img src="${b.imagemUrl}" />` : ""}
+      <h3>${b.nome}</h3>
+      <p>${b.descricao || ""}</p>
+    </div>
+  `).join("");
 }
