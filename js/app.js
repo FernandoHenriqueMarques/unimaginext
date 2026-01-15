@@ -1,5 +1,6 @@
 import { loginWithGoogle, logout, onUserChange } from "./auth.js";
 import { listarBonecosDoUsuario, adicionarBoneco } from "./bonecos.js";
+import { uploadImagem } from "./storage.js";
 
 const loginBtn = document.getElementById("loginGoogle");
 const userInfo = document.getElementById("userInfo");
@@ -7,6 +8,7 @@ const galeria = document.getElementById("galeria");
 const form = document.getElementById("formBoneco");
 const nomeInput = document.getElementById("nomeBoneco");
 const descricaoInput = document.getElementById("descricaoBoneco");
+const imagemInput = document.getElementById("imagemBoneco");
 
 let usuarioAtual = null;
 
@@ -49,17 +51,29 @@ form.addEventListener("submit", async (e) => {
 
   const nome = nomeInput.value.trim();
   const descricao = descricaoInput.value.trim();
+  const file = imagemInput.files[0];
 
   if (!nome) return;
+
+  let imagemUrl = "";
+
+  if (file) {
+    imagemUrl = await uploadImagem({
+      uid: usuarioAtual.uid,
+      file
+    });
+  }
 
   await adicionarBoneco({
     uid: usuarioAtual.uid,
     nome,
-    descricao
+    descricao,
+    imagemUrl
   });
 
   nomeInput.value = "";
   descricaoInput.value = "";
+  imagemInput.value = "";
 
   await carregarGaleria(usuarioAtual.uid);
 });
