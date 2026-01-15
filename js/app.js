@@ -1,12 +1,18 @@
-import { loginWithGoogle, logout, onUserChange } from "./auth.js";
+import { loginWithGoogle, onUserChange } from "./auth.js";
 import { listarBonecosDoUsuario, adicionarBoneco } from "./bonecos.js";
 import { uploadImagem } from "./storage.js";
 
-/* ===== Elementos ===== */
+/* =========================================================
+   ELEMENTOS – HEADER / HOME
+========================================================= */
 const loginBtn = document.getElementById("loginGoogle");
+const userAvatar = document.getElementById("userAvatar");
 const galeria = document.getElementById("galeria");
 const fabAdd = document.getElementById("fabAdd");
 
+/* =========================================================
+   ELEMENTOS – MODAL ADICIONAR
+========================================================= */
 const modalOverlay = document.getElementById("modalOverlay");
 const fecharModalBtn = document.getElementById("fecharModal");
 
@@ -19,65 +25,78 @@ const previewContainer = document.getElementById("previewContainer");
 const previewImagem = document.getElementById("previewImagem");
 const removerImagemBtn = document.getElementById("removerImagem");
 
-const userAvatar = document.getElementById("userAvatar");
+/* =========================================================
+   ELEMENTOS – MODAL DETALHE
+========================================================= */
+const detalheOverlay = document.getElementById("detalheOverlay");
+const fecharDetalheBtn = document.getElementById("fecharDetalhe");
+const detalheNome = document.getElementById("detalheNome");
+const detalheImagem = document.getElementById("detalheImagem");
+const detalheDescricao = document.getElementById("detalheDescricao");
 
-
-/* ===== Estado ===== */
+/* =========================================================
+   ESTADO
+========================================================= */
 let usuarioAtual = null;
+let bonecosCache = [];
 
-/* ===== Login ===== */
+/* =========================================================
+   LOGIN
+========================================================= */
 loginBtn.addEventListener("click", loginWithGoogle);
 
-/* ===== Auth ===== */
+/* =========================================================
+   AUTH STATE
+========================================================= */
 onUserChange(async (user) => {
   usuarioAtual = user;
 
   if (user) {
-    // Esconde botão Entrar
+    // Header
     loginBtn.style.display = "none";
-
-    // Mostra avatar
     userAvatar.style.display = "block";
     userAvatar.style.backgroundImage = `url(${user.photoURL})`;
     userAvatar.style.backgroundSize = "cover";
 
-    // Mostra ações
+    // Ações
     fabAdd.style.display = "flex";
 
     await carregarGaleria(user.uid);
   } else {
-    // Mostra botão Entrar
     loginBtn.style.display = "inline-block";
-
-    // Esconde avatar
     userAvatar.style.display = "none";
     userAvatar.style.backgroundImage = "";
 
-    // Esconde ações
     fabAdd.style.display = "none";
     galeria.innerHTML = "";
 
-    fecharModal();
+    fecharModalAdicionar();
+    fecharDetalhe();
   }
 });
 
-/* ===== Modal ===== */
-fabAdd.addEventListener("click", abrirModal);
-fecharModalBtn.addEventListener("click", fecharModal);
+/* =========================================================
+   MODAL – ADICIONAR ITEM
+========================================================= */
+fabAdd.addEventListener("click", abrirModalAdicionar);
+fecharModalBtn.addEventListener("click", fecharModalAdicionar);
+
 modalOverlay.addEventListener("click", (e) => {
-  if (e.target === modalOverlay) fecharModal();
+  if (e.target === modalOverlay) fecharModalAdicionar();
 });
 
-function abrirModal() {
+function abrirModalAdicionar() {
   modalOverlay.style.display = "flex";
 }
 
-function fecharModal() {
+function fecharModalAdicionar() {
   modalOverlay.style.display = "none";
   limparFormulario();
 }
 
-/* ===== Preview ===== */
+/* =========================================================
+   PREVIEW DE IMAGEM
+========================================================= */
 imagemInput.addEventListener("change", () => {
   const file = imagemInput.files[0];
   if (!file) return esconderPreview();
@@ -94,7 +113,9 @@ function esconderPreview() {
   imagemInput.value = "";
 }
 
-/* ===== Submit ===== */
+/* =========================================================
+   SUBMIT – NOVO ITEM
+========================================================= */
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
   if (!usuarioAtual) return;
@@ -106,6 +127,7 @@ form.addEventListener("submit", async (e) => {
   if (!nome) return;
 
   let imagemUrl = "";
+
   if (file) {
     imagemUrl = await uploadImagem({
       uid: usuarioAtual.uid,
@@ -121,32 +143,65 @@ form.addEventListener("submit", async (e) => {
   });
 
   await carregarGaleria(usuarioAtual.uid);
-  fecharModal();
+  fecharModalAdicionar();
 });
 
-/* ===== Util ===== */
-function limparFormulario() {
-  nomeInput.value = "";
-  descricaoInput.value = "";
-  esconderPreview();
-}
-
-/* ===== Galeria ===== */
+/* =========================================================
+   GALERIA
+========================================================= */
 async function carregarGaleria(uid) {
-  galeria.innerHTML = "<p>Carregando...</p>";
+  galeria.innerHTML = "<p>Carregando sua galeria...</p>";
 
   const bonecos = await listarBonecosDoUsuario(uid);
+  bonecosCache = bonecos;
 
   if (bonecos.length === 0) {
     galeria.innerHTML = "<p>Sua galeria está vazia.</p>";
     return;
   }
 
-  galeria.innerHTML = bonecos.map(b => `
-    <div class="card">
+  galeria.innerHTML = bonecos.map((b, index) => `
+    <div class="card" data-index="${index}">
       ${b.imagemUrl ? `<img src="${b.imagemUrl}" />` : ""}
       <h3>${b.nome}</h3>
       <p>${b.descricao || ""}</p>
     </div>
   `).join("");
+
+  document.querySelectorAll(".card").forEach(card => {
+    card.addEventListener("click", () => {
+      const index = card.dataset.index;
+      abrirDetalhe(bonecosCache[index]);
+    });
+  });
+}
+
+/* =========================================================
+   MODAL – DETALHE DO BONECO
+========================================================= */
+fecharDetalheBtn.addEventListener("click", fecharDetalhe);
+
+detalheOverlay.addEventListener("click", (e) => {
+  if (e.target === detalheOverlay) fecharDetalhe();
+});
+
+function abrirDetalhe(boneco) {
+  detalheNome.textContent = boneco.nome;
+  detalheDescricao.textContent = boneco.descricao || "";
+  detalheImagem.src = boneco.imagemUrl || "";
+
+  detalheOverlay.style.display = "flex";
+}
+
+function fecharDetalhe() {
+  detalheOverlay.style.display = "none";
+}
+
+/* =========================================================
+   UTIL
+========================================================= */
+function limparFormulario() {
+  nomeInput.value = "";
+  descricaoInput.value = "";
+  esconderPreview();
 }
