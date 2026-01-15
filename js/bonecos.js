@@ -16,8 +16,7 @@ export async function listarBonecosDoUsuario(uid) {
 
   const q = query(
     bonecosRef,
-    where("ownerId", "==", uid),
-    orderBy("criadoEm", "desc")
+    where("ownerId", "==", uid)
   );
 
   const snapshot = await getDocs(q);
