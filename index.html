@@ -81,54 +81,56 @@
 
       <form id="formBoneco" class="form">
 
-        <input
-          type="text"
-          id="nomeBoneco"
-          placeholder="Nome do boneco"
-          required
+      <input
+        type="text"
+        id="nomeBoneco"
+        placeholder="Nome do item"
+        required
+      />
+    
+      <textarea
+        id="descricaoBoneco"
+        placeholder="Descrição (opcional)"
+      ></textarea>
+    
+      <input
+        type="file"
+        id="imagemBoneco"
+        accept="image/*"
+      />
+    
+      <!-- Preview da imagem (opcional) -->
+      <div
+        id="previewContainer"
+        class="preview"
+        style="display:none;"
+      >
+        <img
+          id="previewImagem"
+          alt="Preview da imagem"
         />
-
-        <textarea
-          id="descricaoBoneco"
-          placeholder="Descrição (opcional)"
-        ></textarea>
-
-        <input
-          type="file"
-          id="imagemBoneco"
-          accept="image/*"
-        />
-
-        <!-- Preview da imagem -->
-        <div
-          id="previewContainer"
-          class="preview"
-          style="display:none;"
+    
+        <button
+          type="button"
+          id="removerImagem"
+          class="btn-secondary"
         >
-          <img
-            id="previewImagem"
-            alt="Preview da imagem"
-          />
+          Remover imagem
+        </button>
+      </div>
+    
+      <!-- Ações do formulário (sempre visíveis) -->
+      <div class="modal-actions">
+        <button
+          type="submit"
+          class="btn-primary"
+        >
+          Salvar item
+        </button>
+      </div>
+    
+    </form>
 
-          <div class="modal-actions">
-            <button
-              type="button"
-              id="removerImagem"
-              class="btn-secondary"
-            >
-              Remover imagem
-            </button>
-
-            <button
-              type="submit"
-              class="btn-primary"
-            >
-              Salvar item
-            </button>
-          </div>
-        </div>
-
-      </form>
     </div>
   </div>
 
