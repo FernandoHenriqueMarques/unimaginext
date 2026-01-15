@@ -25,6 +25,8 @@ const previewContainer = document.getElementById("previewContainer");
 const previewImagem = document.getElementById("previewImagem");
 const removerImagemBtn = document.getElementById("removerImagem");
 
+const btnSalvar = document.getElementById("btnSalvar");
+
 /* =========================================================
    ELEMENTOS – MODAL DETALHE
 ========================================================= */
@@ -38,7 +40,7 @@ const detalheDescricao = document.getElementById("detalheDescricao");
    ESTADO
 ========================================================= */
 let usuarioAtual = null;
-let bonecosCache = [];
+let itensCache = [];
 
 /* =========================================================
    LOGIN
@@ -114,6 +116,24 @@ function esconderPreview() {
 }
 
 /* =========================================================
+   LOADING – BOTÃO SALVAR
+========================================================= */
+function setLoadingSalvar(loading) {
+  const text = btnSalvar.querySelector(".btn-text");
+  const spinner = btnSalvar.querySelector(".btn-spinner");
+
+  if (loading) {
+    btnSalvar.disabled = true;
+    text.textContent = "Salvando...";
+    spinner.style.display = "inline-block";
+  } else {
+    btnSalvar.disabled = false;
+    text.textContent = "Salvar item";
+    spinner.style.display = "none";
+  }
+}
+
+/* =========================================================
    SUBMIT – NOVO ITEM
 ========================================================= */
 form.addEventListener("submit", async (e) => {
@@ -121,62 +141,77 @@ form.addEventListener("submit", async (e) => {
   if (!usuarioAtual) return;
 
   const nome = nomeInput.value.trim();
-  const descricao = descricaoInput.value.trim();
-  const file = imagemInput.files[0];
-
   if (!nome) return;
 
-  let imagemUrl = "";
+  setLoadingSalvar(true);
 
-  if (file) {
-    imagemUrl = await uploadImagem({
+  try {
+    const descricao = descricaoInput.value.trim();
+    const file = imagemInput.files[0];
+
+    let imagemUrl = "";
+
+    if (file) {
+      imagemUrl = await uploadImagem({
+        uid: usuarioAtual.uid,
+        file
+      });
+    }
+
+    await adicionarBoneco({
       uid: usuarioAtual.uid,
-      file
+      nome,
+      descricao,
+      imagemUrl
     });
+
+    await carregarGaleria(usuarioAtual.uid);
+    fecharModalAdicionar();
+  } finally {
+    setLoadingSalvar(false);
   }
-
-  await adicionarBoneco({
-    uid: usuarioAtual.uid,
-    nome,
-    descricao,
-    imagemUrl
-  });
-
-  await carregarGaleria(usuarioAtual.uid);
-  fecharModalAdicionar();
 });
 
 /* =========================================================
-   GALERIA
+   GALERIA + SKELETON
 ========================================================= */
 async function carregarGaleria(uid) {
-  galeria.innerHTML = "<p>Carregando sua galeria...</p>";
+  mostrarSkeletonGaleria();
 
-  const bonecos = await listarBonecosDoUsuario(uid);
-  bonecosCache = bonecos;
+  const itens = await listarBonecosDoUsuario(uid);
+  itensCache = itens;
 
-  if (bonecos.length === 0) {
+  if (itens.length === 0) {
     galeria.innerHTML = "<p>Sua galeria está vazia.</p>";
     return;
   }
 
-  galeria.innerHTML = bonecos.map((b, index) => `
+  galeria.innerHTML = itens.map((item, index) => `
     <div class="card" data-index="${index}">
-      ${b.imagemUrl ? `<img src="${b.imagemUrl}" />` : ""}
-      <h3>${b.nome}</h3>
+      ${item.imagemUrl ? `<img src="${item.imagemUrl}" />` : ""}
+      <h3>${item.nome}</h3>
     </div>
   `).join("");
 
   document.querySelectorAll(".card").forEach(card => {
     card.addEventListener("click", () => {
       const index = card.dataset.index;
-      abrirDetalhe(bonecosCache[index]);
+      abrirDetalhe(itensCache[index]);
     });
   });
 }
 
+function mostrarSkeletonGaleria() {
+  galeria.innerHTML = `
+    <div class="card skeleton skeleton-card"></div>
+    <div class="card skeleton skeleton-card"></div>
+    <div class="card skeleton skeleton-card"></div>
+    <div class="card skeleton skeleton-card"></div>
+  `;
+}
+
 /* =========================================================
-   MODAL – DETALHE DO BONECO
+   MODAL – DETALHE DO ITEM
 ========================================================= */
 fecharDetalheBtn.addEventListener("click", fecharDetalhe);
 
@@ -184,10 +219,10 @@ detalheOverlay.addEventListener("click", (e) => {
   if (e.target === detalheOverlay) fecharDetalhe();
 });
 
-function abrirDetalhe(boneco) {
-  detalheNome.textContent = boneco.nome;
-  detalheDescricao.textContent = boneco.descricao || "";
-  detalheImagem.src = boneco.imagemUrl || "";
+function abrirDetalhe(item) {
+  detalheNome.textContent = item.nome;
+  detalheDescricao.textContent = item.descricao || "";
+  detalheImagem.src = item.imagemUrl || "";
 
   detalheOverlay.style.display = "flex";
 }
