@@ -25,14 +25,14 @@ export async function listarBonecosDoUsuario(uid) {
 }
 
 // ➕ NOVA FUNÇÃO
-export async function adicionarBoneco({ uid, nome, descricao }) {
-  const bonecosRef = collection(db, "bonecos");
+export async function adicionarBoneco({ uid, nome, descricao, imagemUrl }) {
+  const ref = collection(db, "bonecos");
 
-  await addDoc(bonecosRef, {
+  await addDoc(ref, {
     ownerId: uid,
     nome,
     descricao,
-    imagemUrl: "",
+    imagemUrl: imagemUrl || "",
     criadoEm: serverTimestamp(),
     atualizadoEm: serverTimestamp()
   });
