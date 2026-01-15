@@ -5,36 +5,7 @@
   <title>unimaginext</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #0f172a;
-      color: #e5e7eb;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-    }
-
-    .container {
-      text-align: center;
-    }
-
-    button {
-      background: #ffffff;
-      color: #111827;
-      border: none;
-      padding: 14px 20px;
-      font-size: 1rem;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background: #e5e7eb;
-    }
-  </style>
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 
 <body>
@@ -43,57 +14,9 @@
 
     <button id="loginGoogle">Login com Google</button>
 
-    <div id="userInfo" style="margin-top:20px;"></div>
+    <div id="userInfo"></div>
   </div>
 
-  <!-- Firebase -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import {
-      getAuth,
-      GoogleAuthProvider,
-      signInWithPopup,
-      onAuthStateChanged,
-      signOut
-    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-
-    // 🔥 Firebase config (seu projeto)
-    const firebaseConfig = {
-      apiKey: "AIzaSyA-awjWntNjEiMZM-RIM_93xLpEA7icYHg",
-      authDomain: "unimaginext.firebaseapp.com",
-      projectId: "unimaginext",
-      storageBucket: "unimaginext.firebasestorage.app",
-      messagingSenderId: "795705167282",
-      appId: "1:795705167282:web:3a25ac6dc1f71e6f55a8ab"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const provider = new GoogleAuthProvider();
-
-    const loginBtn = document.getElementById("loginGoogle");
-    const userInfo = document.getElementById("userInfo");
-
-    loginBtn.addEventListener("click", async () => {
-      await signInWithPopup(auth, provider);
-    });
-
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        loginBtn.style.display = "none";
-        userInfo.innerHTML = `
-          <p>Logado como <strong>${user.displayName}</strong></p>
-          <button id="logout">Logout</button>
-        `;
-
-        document.getElementById("logout").addEventListener("click", () => {
-          signOut(auth);
-        });
-      } else {
-        loginBtn.style.display = "inline-block";
-        userInfo.innerHTML = "";
-      }
-    });
-  </script>
+  <script type="module" src="js/app.js"></script>
 </body>
 </html>
