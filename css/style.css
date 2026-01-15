@@ -1,68 +1,148 @@
+/* ===== Base ===== */
 body {
   margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  background: #0f172a;
-  color: #e5e7eb;
-  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, Helvetica, Arial, sans-serif;
+  background: #f9fafb;
+  color: #111827;
 }
 
+button {
+  border: none;
+  background: #2563eb;
+  color: white;
+  border-radius: 8px;
+  padding: 10px 14px;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+/* ===== Top Bar ===== */
+.topbar {
+  position: sticky;
+  top: 0;
+  height: 56px;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.05);
+  z-index: 10;
+}
+
+.logo {
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #e5e7eb;
+}
+
+/* ===== Layout ===== */
 .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 24px;
 }
 
-h1 {
-  text-align: center;
-  margin-bottom: 24px;
-}
-
-button {
-  background: #ffffff;
-  color: #111827;
-  border: none;
-  padding: 10px 14px;
-  font-size: 0.9rem;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-button:hover {
-  background: #e5e7eb;
-}
-
-form {
-  margin-top: 24px;
+/* ===== Hero ===== */
+.hero {
   margin-bottom: 32px;
 }
 
-input,
-textarea {
-  box-sizing: border-box;
-  width: 100%;
-  padding: 8px;
-  margin-bottom: 8px;
-  border-radius: 4px;
-  border: none;
+.hero h1 {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 600;
 }
 
-/* ===== GALERIA ===== */
+.hero p {
+  margin-top: 4px;
+  color: #6b7280;
+}
 
+/* ===== Form ===== */
+.form {
+  max-width: 400px;
+  margin-bottom: 40px;
+}
+
+.form input,
+.form textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+}
+
+/* ===== Preview ===== */
+.preview img {
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 6px;
+}
+
+/* ===== Galeria (GRID) ===== */
 #galeria {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
 }
 
+/* ===== Card ===== */
 .card {
-  background: #020617;
-  border-radius: 10px;
+  background: white;
+  border-radius: 14px;
   padding: 12px;
-  display: flex;
-  flex-direction: column;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
 }
 
 .card img {
   width: 100%;
   aspect-ratio: 1 / 1;
-  obj
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.card h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.card p {
+  margin-top: 4px;
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+/* ===== FAB ===== */
+.fab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  font-size: 2rem;
+  background: #2563eb;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
