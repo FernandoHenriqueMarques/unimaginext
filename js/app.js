@@ -89,9 +89,10 @@ async function carregarGaleria(uid) {
   }
 
   galeria.innerHTML = bonecos.map(b => `
-    <div style="margin-bottom:16px;">
-      <strong>${b.nome}</strong><br>
-      <small>${b.descricao || ""}</small>
-    </div>
-  `).join("");
+  <div style="margin-bottom:24px;">
+    ${b.imagemUrl ? `<img src="${b.imagemUrl}" style="max-width:150px; display:block; margin-bottom:8px;">` : ""}
+    <strong>${b.nome}</strong><br>
+    <small>${b.descricao || ""}</small>
+  </div>
+`).join("");
 }
