@@ -1,4 +1,4 @@
-import { loginWithGoogle, onUserChange } from "./auth.js";
+import { loginWithGoogle, logout, onUserChange } from "./auth.js";
 import { listarBonecosDoUsuario, adicionarBoneco } from "./bonecos.js";
 import { uploadImagem } from "./storage.js";
 
@@ -7,6 +7,10 @@ import { uploadImagem } from "./storage.js";
 ========================================================= */
 const loginBtn = document.getElementById("loginGoogle");
 const userAvatar = document.getElementById("userAvatar");
+const avatarMenu = document.getElementById("avatarMenu");
+const menuAddItem = document.getElementById("menuAddItem");
+const menuLogout = document.getElementById("menuLogout");
+
 const galeria = document.getElementById("galeria");
 const fabAdd = document.getElementById("fabAdd");
 
@@ -48,26 +52,50 @@ let itensCache = [];
 loginBtn.addEventListener("click", loginWithGoogle);
 
 /* =========================================================
+   MENU DO AVATAR
+========================================================= */
+userAvatar.addEventListener("click", (e) => {
+  e.stopPropagation();
+  avatarMenu.style.display =
+    avatarMenu.style.display === "block" ? "none" : "block";
+});
+
+document.addEventListener("click", () => {
+  avatarMenu.style.display = "none";
+});
+
+menuAddItem.addEventListener("click", () => {
+  avatarMenu.style.display = "none";
+  abrirModalAdicionar();
+});
+
+menuLogout.addEventListener("click", () => {
+  avatarMenu.style.display = "none";
+  logout();
+});
+
+/* =========================================================
    AUTH STATE
 ========================================================= */
 onUserChange(async (user) => {
   usuarioAtual = user;
 
   if (user) {
-    // Header
     loginBtn.style.display = "none";
+
     userAvatar.style.display = "block";
     userAvatar.style.backgroundImage = `url(${user.photoURL})`;
     userAvatar.style.backgroundSize = "cover";
 
-    // Ações
     fabAdd.style.display = "flex";
 
     await carregarGaleria(user.uid);
   } else {
     loginBtn.style.display = "inline-block";
+
     userAvatar.style.display = "none";
     userAvatar.style.backgroundImage = "";
+    avatarMenu.style.display = "none";
 
     fabAdd.style.display = "none";
     galeria.innerHTML = "";
