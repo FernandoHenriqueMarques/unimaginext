@@ -2,25 +2,29 @@ import { loginWithGoogle, logout, onUserChange } from "./auth.js";
 import { listarBonecosDoUsuario, adicionarBoneco } from "./bonecos.js";
 import { uploadImagem } from "./storage.js";
 
+// ===== Elementos da UI =====
 const loginBtn = document.getElementById("loginGoogle");
 const userInfo = document.getElementById("userInfo");
 const galeria = document.getElementById("galeria");
+
 const form = document.getElementById("formBoneco");
 const nomeInput = document.getElementById("nomeBoneco");
 const descricaoInput = document.getElementById("descricaoBoneco");
 const imagemInput = document.getElementById("imagemBoneco");
 
+const previewContainer = document.getElementById("previewContainer");
+const previewImagem = document.getElementById("previewImagem");
+const removerImagemBtn = document.getElementById("removerImagem");
+
+// ===== Estado =====
 let usuarioAtual = null;
 
-// 🔎 DEBUG TEMPORÁRIO
-console.log("app.js carregado");
-console.log("loginBtn:", loginBtn);
-
+// ===== Login =====
 loginBtn.addEventListener("click", () => {
-  console.log("CLIQUE NO BOTÃO LOGIN");
   loginWithGoogle();
 });
 
+// ===== Auth state =====
 onUserChange(async (user) => {
   usuarioAtual = user;
 
@@ -43,11 +47,39 @@ onUserChange(async (user) => {
     form.style.display = "none";
     userInfo.innerHTML = "";
     galeria.innerHTML = "";
+    esconderPreview();
   }
 });
 
+// ===== Preview da imagem =====
+imagemInput.addEventListener("change", () => {
+  const file = imagemInput.files[0];
+
+  if (!file) {
+    esconderPreview();
+    return;
+  }
+
+  const previewUrl = URL.createObjectURL(file);
+  previewImagem.src = previewUrl;
+  previewContainer.style.display = "block";
+});
+
+removerImagemBtn.addEventListener("click", () => {
+  esconderPreview();
+});
+
+function esconderPreview() {
+  previewImagem.src = "";
+  previewContainer.style.display = "none";
+  imagemInput.value = "";
+}
+
+// ===== Submit do formulário =====
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
+
+  if (!usuarioAtual) return;
 
   const nome = nomeInput.value.trim();
   const descricao = descricaoInput.value.trim();
@@ -73,11 +105,12 @@ form.addEventListener("submit", async (e) => {
 
   nomeInput.value = "";
   descricaoInput.value = "";
-  imagemInput.value = "";
+  esconderPreview();
 
   await carregarGaleria(usuarioAtual.uid);
 });
 
+// ===== Listagem =====
 async function carregarGaleria(uid) {
   galeria.innerHTML = "<p>Carregando sua galeria...</p>";
 
@@ -89,10 +122,14 @@ async function carregarGaleria(uid) {
   }
 
   galeria.innerHTML = bonecos.map(b => `
-  <div style="margin-bottom:24px;">
-    ${b.imagemUrl ? `<img src="${b.imagemUrl}" style="max-width:150px; display:block; margin-bottom:8px;">` : ""}
-    <strong>${b.nome}</strong><br>
-    <small>${b.descricao || ""}</small>
-  </div>
-`).join("");
+    <div style="margin-bottom:24px;">
+      ${
+        b.imagemUrl
+          ? `<img src="${b.imagemUrl}" style="max-width:150px; display:block; margin-bottom:8px;">`
+          : ""
+      }
+      <strong>${b.nome}</strong><br>
+      <small>${b.descricao || ""}</small>
+    </div>
+  `).join("");
 }
