@@ -9,57 +9,96 @@
 </head>
 
 <body>
-  <!-- Top Bar -->
+
+  <!-- ================= TOP BAR ================= -->
   <header class="topbar">
     <div class="logo">unimaginext</div>
-    <div id="userAvatar" class="avatar"></div>
+
+    <button id="loginGoogle" type="button">
+      Entrar
+    </button>
   </header>
 
-  <!-- Conteúdo -->
+  <!-- ================= CONTEÚDO ================= -->
   <main class="container">
-    <!-- Hero -->
+
+    <!-- HERO -->
     <section class="hero">
       <h1>Minha coleção</h1>
-      <p id="contadorBonecos">0 bonecos cadastrados</p>
+      <p id="contadorBonecos">Gerencie seus bonecos pessoais</p>
     </section>
 
-    <!-- Formulário (temporariamente visível, depois vira modal) -->
-    <form id="formBoneco" class="form">
-      <input
-        type="text"
-        id="nomeBoneco"
-        placeholder="Nome do boneco"
-        required
-      />
-
-      <textarea
-        id="descricaoBoneco"
-        placeholder="Descrição"
-      ></textarea>
-
-      <input
-        type="file"
-        id="imagemBoneco"
-        accept="image/*"
-      />
-
-      <!-- Preview -->
-      <div id="previewContainer" class="preview" style="display:none;">
-        <img id="previewImagem" />
-        <button type="button" id="removerImagem">Remover imagem</button>
-      </div>
-
-      <button type="submit">Salvar boneco</button>
-    </form>
-
-    <!-- Galeria -->
+    <!-- GALERIA (somente após login) -->
     <section id="galeria"></section>
+
   </main>
 
-  <!-- FAB -->
-  <button id="fabAdd" class="fab">+</button>
+  <!-- ================= FAB ================= -->
+  <!-- Só aparece quando logado -->
+  <button id="fabAdd" class="fab" style="display:none;">+</button>
 
+  <!-- ================= MODAL ================= -->
+  <!-- Adicionar Item -->
+  <div id="modalOverlay" class="modal-overlay" style="display:none;">
+    <div class="modal">
+
+      <header class="modal-header">
+        <h2>Novo item</h2>
+        <button
+          id="fecharModal"
+          type="button"
+          class="close-btn"
+          aria-label="Fechar"
+        >
+          ✕
+        </button>
+      </header>
+
+      <form id="formBoneco" class="form">
+
+        <input
+          type="text"
+          id="nomeBoneco"
+          placeholder="Nome do boneco"
+          required
+        />
+
+        <textarea
+          id="descricaoBoneco"
+          placeholder="Descrição (opcional)"
+        ></textarea>
+
+        <input
+          type="file"
+          id="imagemBoneco"
+          accept="image/*"
+        />
+
+        <!-- Preview da imagem -->
+        <div
+          id="previewContainer"
+          class="preview"
+          style="display:none;"
+        >
+          <img id="previewImagem" alt="Preview da imagem" />
+          <button
+            type="button"
+            id="removerImagem"
+          >
+            Remover imagem
+          </button>
+        </div>
+
+        <button type="submit">
+          Salvar item
+        </button>
+
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= SCRIPT ================= -->
   <script type="module" src="js/app.js"></script>
-</body>
 
+</body>
 </html>
