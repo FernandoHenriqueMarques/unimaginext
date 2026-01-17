@@ -1,132 +1,268 @@
+/* =========================================================
+   BASE
+========================================================= */
 * {
   box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  font-family: system-ui, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, Helvetica, Arial, sans-serif;
+  background: #f9fafb;
+  color: #111827;
 }
 
-/* ================= TOPBAR ================= */
+button {
+  border: none;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
 
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* =========================================================
+   TOP BAR
+========================================================= */
 .topbar {
   position: sticky;
   top: 0;
   height: 56px;
-  padding: 0 16px;
-  background: #111;
-  color: #fff;
-
+  background: white;
   display: flex;
   align-items: center;
   justify-content: space-between;
-
-  z-index: 100;
+  padding: 0 20px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.05);
+  z-index: 10;
 }
 
 .logo {
-  font-weight: bold;
-}
-
-.topbar-actions {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+  font-weight: 600;
+  font-size: 1.1rem;
 }
 
 .avatar {
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
-  background-color: #444;
-  background-size: cover;
-  background-position: center;
+  background: #e5e7eb;
   cursor: pointer;
-  flex-shrink: 0;
 }
 
-/* ================= CONTAINER ================= */
-
+/* =========================================================
+   LAYOUT
+========================================================= */
 .container {
-  padding: 16px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
 }
 
-/* ================= GALERIA ================= */
+/* =========================================================
+   HERO
+========================================================= */
+.hero {
+  margin-bottom: 32px;
+}
 
+.hero h1 {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.hero p {
+  margin-top: 4px;
+  color: #6b7280;
+}
+
+/* =========================================================
+   GALERIA (GRID)
+========================================================= */
 #galeria {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
 }
 
+/* =========================================================
+   CARD
+========================================================= */
 .card {
-  background: #f2f2f2;
-  border-radius: 8px;
-  padding: 8px;
+  background: white;
+  border-radius: 14px;
+  padding: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
   cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
 }
 
 .card img {
   width: 100%;
-  border-radius: 6px;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 10px;
 }
 
-/* ================= SKELETON ================= */
-
-.skeleton {
-  background: linear-gradient(
-    90deg,
-    #e0e0e0 25%,
-    #f0f0f0 37%,
-    #e0e0e0 63%
-  );
-  background-size: 400% 100%;
-  animation: shimmer 1.4s ease infinite;
+.card h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 500;
 }
 
-.skeleton-card {
-  height: 220px;
-  border-radius: 8px;
-}
-
-@keyframes shimmer {
-  0% { background-position: 100% 0; }
-  100% { background-position: -100% 0; }
-}
-
-/* ================= FAB ================= */
-
+/* =========================================================
+   FAB (ADICIONAR)
+========================================================= */
 .fab {
   position: fixed;
-  right: 24px;
   bottom: 24px;
+  right: 24px;
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  font-size: 32px;
-  border: none;
-  background: #111;
-  color: #fff;
-  cursor: pointer;
-  z-index: 1000;
+  background: #2563eb;
+  color: white;
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 30px rgba(37,99,235,0.4);
 }
 
-/* ================= MODAIS ================= */
-
+/* =========================================================
+   MODAL (BASE)
+========================================================= */
 .modal-overlay {
   position: fixed;
   inset: 0;
-  display: none;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(4px);
+  display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 2000;
+  z-index: 50;
 }
 
 .modal {
-  background: #fff;
-  border-radius: 8px;
-  padding: 16px;
+  background: white;
   width: 100%;
   max-width: 420px;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+
+/* =========================================================
+   MODAL HEADER
+========================================================= */
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.close-btn {
+  background: transparent;
+  color: #111827;
+  font-size: 1.2rem;
+  padding: 4px 8px;
+}
+
+/* =========================================================
+   FORM
+========================================================= */
+.form input,
+.form textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  font-size: 0.9rem;
+}
+
+.form textarea {
+  resize: vertical;
+}
+
+/* =========================================================
+   PREVIEW DE IMAGEM
+========================================================= */
+.preview img {
+  width: 100%;
+  border-radius: 12px;
+  margin-bottom: 8px;
+}
+
+/* =========================================================
+   BOTÕES
+========================================================= */
+.btn-primary {
+  background: #2563eb;
+  color: white;
+  font-weight: 500;
+}
+
+.btn-secondary {
+  background: #e5e7eb;
+  color: #111827;
+}
+
+/* =========================================================
+   AÇÕES DO MODAL
+========================================================= */
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+@media (max-width: 480px) {
+  .modal-actions {
+    flex-direction: column;
+  }
+}
+
+/* =========================================================
+   MODAL DETALHE (PREMIUM)
+========================================================= */
+.modal-detalhe {
+  max-width: 520px;
+}
+
+.detalhe-conteudo {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.detalhe-imagem {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 14px;
+}
+
+.detalhe-descricao {
+  font-size: 0.95rem;
+  color: #374151;
+  line-height: 1.5;
 }
