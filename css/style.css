@@ -1,3 +1,10 @@
+/* ===== Box model correto ===== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 /* ===== Base ===== */
 body {
   margin: 0;
@@ -35,7 +42,7 @@ button[disabled] {
   align-items: center;
   justify-content: space-between;
   padding: 0 20px;
-  box-shadow: 0 1px 6px rgba(0,0,0,0.05);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
   z-index: 10;
 }
 
@@ -59,7 +66,7 @@ button[disabled] {
   right: 20px;
   background: white;
   border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
   padding: 8px;
   display: flex;
   flex-direction: column;
@@ -114,14 +121,14 @@ button[disabled] {
   background: white;
   border-radius: 14px;
   padding: 12px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   cursor: pointer;
 }
 
 .card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
 }
 
 .card img {
@@ -157,7 +164,7 @@ button[disabled] {
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.4);
+  background: rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
@@ -171,7 +178,7 @@ button[disabled] {
   max-width: 420px;
   border-radius: 16px;
   padding: 20px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
 }
 
 .modal-header {
@@ -233,7 +240,7 @@ button[disabled] {
 .btn-spinner {
   width: 16px;
   height: 16px;
-  border: 2px solid rgba(255,255,255,0.4);
+  border: 2px solid rgba(255, 255, 255, 0.4);
   border-top-color: white;
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
@@ -249,12 +256,10 @@ button[disabled] {
 
 /* ===== Skeleton ===== */
 .skeleton {
-  background: linear-gradient(
-    90deg,
-    #e5e7eb 25%,
-    #f3f4f6 37%,
-    #e5e7eb 63%
-  );
+  background: linear-gradient(90deg,
+      #e5e7eb 25%,
+      #f3f4f6 37%,
+      #e5e7eb 63%);
   background-size: 400% 100%;
   animation: skeleton-loading 1.4s ease infinite;
 }
@@ -263,6 +268,7 @@ button[disabled] {
   0% {
     background-position: 100% 50%;
   }
+
   100% {
     background-position: 0 50%;
   }
@@ -367,4 +373,3 @@ button[disabled] {
   resize: none;
   overflow-y: auto;
 }
-
