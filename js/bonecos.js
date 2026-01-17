@@ -1,19 +1,34 @@
 import {
+  getFirestore,
   collection,
-  addDoc,
-  getDocs,
   query,
   where,
-  orderBy,
+  getDocs,
+  addDoc,
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-import { db } from "./firebase.js";
+import { app } from "./firebase.js";
 
-const COLLECTION = "bonecos";
+const db = getFirestore(app);
 
+// 🔍 já existente
+export async function listarBonecosDoUsuario(uid) {
+  const bonecosRef = collection(db, "bonecos");
+  const q = query(bonecosRef, where("ownerId", "==", uid));
+  const snapshot = await getDocs(q);
+
+  return snapshot.docs.map(doc => ({
+    id: doc.id,
+    ...doc.data()
+  }));
+}
+
+// ➕ NOVA FUNÇÃO
 export async function adicionarBoneco({ uid, nome, descricao, imagemUrl }) {
-  await addDoc(collection(db, COLLECTION), {
+  const ref = collection(db, "bonecos");
+
+  await addDoc(ref, {
     ownerId: uid,
     nome,
     descricao,
@@ -21,19 +36,4 @@ export async function adicionarBoneco({ uid, nome, descricao, imagemUrl }) {
     criadoEm: serverTimestamp(),
     atualizadoEm: serverTimestamp()
   });
-}
-
-export async function listarBonecosDoUsuario(uid) {
-  const q = query(
-    collection(db, COLLECTION),
-    where("ownerId", "==", uid),
-    orderBy("criadoEm", "desc")
-  );
-
-  const snapshot = await getDocs(q);
-
-  return snapshot.docs.map(doc => ({
-    id: doc.id,
-    ...doc.data()
-  }));
 }

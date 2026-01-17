@@ -2,13 +2,21 @@ import { loginWithGoogle, onUserChange } from "./auth.js";
 import { listarBonecosDoUsuario, adicionarBoneco } from "./bonecos.js";
 import { uploadImagem } from "./storage.js";
 
-/* ================= ELEMENTOS ================= */
+/* =========================================================
+   ELEMENTOS – HEADER / HOME
+========================================================= */
 const loginBtn = document.getElementById("loginGoogle");
 const userAvatar = document.getElementById("userAvatar");
+
+
+
+
 const galeria = document.getElementById("galeria");
 const fabAdd = document.getElementById("fabAdd");
 
-/* Modal adicionar */
+/* =========================================================
+   ELEMENTOS – MODAL ADICIONAR
+========================================================= */
 const modalOverlay = document.getElementById("modalOverlay");
 const fecharModalBtn = document.getElementById("fecharModal");
 
@@ -21,36 +29,75 @@ const previewContainer = document.getElementById("previewContainer");
 const previewImagem = document.getElementById("previewImagem");
 const removerImagemBtn = document.getElementById("removerImagem");
 
-/* Modal detalhe */
+const btnSalvar = document.getElementById("btnSalvar");
+
+/* =========================================================
+   ELEMENTOS – MODAL DETALHE
+========================================================= */
 const detalheOverlay = document.getElementById("detalheOverlay");
 const fecharDetalheBtn = document.getElementById("fecharDetalhe");
 const detalheNome = document.getElementById("detalheNome");
 const detalheImagem = document.getElementById("detalheImagem");
 const detalheDescricao = document.getElementById("detalheDescricao");
 
-/* ================= ESTADO ================= */
+/* =========================================================
+   ESTADO
+========================================================= */
 let usuarioAtual = null;
 let itensCache = [];
 
-/* ================= LOGIN ================= */
+/* =========================================================
+   LOGIN
+========================================================= */
 loginBtn.addEventListener("click", loginWithGoogle);
 
-/* ================= AUTH ================= */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   AUTH STATE
+========================================================= */
 onUserChange(async (user) => {
   usuarioAtual = user;
 
   if (user) {
+    // Header
     loginBtn.style.display = "none";
+
     userAvatar.style.display = "block";
     userAvatar.style.backgroundImage = `url(${user.photoURL})`;
     userAvatar.style.backgroundSize = "cover";
 
+    // Ações
     fabAdd.style.display = "flex";
+
     await carregarGaleria(user.uid);
   } else {
     loginBtn.style.display = "inline-block";
+
     userAvatar.style.display = "none";
     userAvatar.style.backgroundImage = "";
+
 
     fabAdd.style.display = "none";
     galeria.innerHTML = "";
@@ -60,23 +107,28 @@ onUserChange(async (user) => {
   }
 });
 
-/* ================= MODAL ADICIONAR ================= */
-fabAdd.addEventListener("click", () => {
-  modalOverlay.style.display = "flex";
-});
-
+/* =========================================================
+   MODAL – ADICIONAR ITEM
+========================================================= */
+fabAdd.addEventListener("click", abrirModalAdicionar);
 fecharModalBtn.addEventListener("click", fecharModalAdicionar);
 
 modalOverlay.addEventListener("click", (e) => {
   if (e.target === modalOverlay) fecharModalAdicionar();
 });
 
+function abrirModalAdicionar() {
+  modalOverlay.style.display = "flex";
+}
+
 function fecharModalAdicionar() {
   modalOverlay.style.display = "none";
   limparFormulario();
 }
 
-/* ================= PREVIEW ================= */
+/* =========================================================
+   PREVIEW DE IMAGEM
+========================================================= */
 imagemInput.addEventListener("change", () => {
   const file = imagemInput.files[0];
   if (!file) return esconderPreview();
@@ -93,39 +145,68 @@ function esconderPreview() {
   imagemInput.value = "";
 }
 
-/* ================= SUBMIT ================= */
+/* =========================================================
+   LOADING – BOTÃO SALVAR
+========================================================= */
+function setLoadingSalvar(loading) {
+  const text = btnSalvar.querySelector(".btn-text");
+  const spinner = btnSalvar.querySelector(".btn-spinner");
+
+  if (loading) {
+    btnSalvar.disabled = true;
+    text.textContent = "Salvando...";
+    spinner.style.display = "inline-block";
+  } else {
+    btnSalvar.disabled = false;
+    text.textContent = "Salvar item";
+    spinner.style.display = "none";
+  }
+}
+
+/* =========================================================
+   SUBMIT – NOVO ITEM
+========================================================= */
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
   if (!usuarioAtual) return;
 
   const nome = nomeInput.value.trim();
-  const descricao = descricaoInput.value.trim();
-  const file = imagemInput.files[0];
-
   if (!nome) return;
 
-  let imagemUrl = "";
-  if (file) {
-    imagemUrl = await uploadImagem({
+  setLoadingSalvar(true);
+
+  try {
+    const descricao = descricaoInput.value.trim();
+    const file = imagemInput.files[0];
+
+    let imagemUrl = "";
+
+    if (file) {
+      imagemUrl = await uploadImagem({
+        uid: usuarioAtual.uid,
+        file
+      });
+    }
+
+    await adicionarBoneco({
       uid: usuarioAtual.uid,
-      file
+      nome,
+      descricao,
+      imagemUrl
     });
+
+    await carregarGaleria(usuarioAtual.uid);
+    fecharModalAdicionar();
+  } finally {
+    setLoadingSalvar(false);
   }
-
-  await adicionarBoneco({
-    uid: usuarioAtual.uid,
-    nome,
-    descricao,
-    imagemUrl
-  });
-
-  await carregarGaleria(usuarioAtual.uid);
-  fecharModalAdicionar();
 });
 
-/* ================= GALERIA ================= */
+/* =========================================================
+   GALERIA + SKELETON
+========================================================= */
 async function carregarGaleria(uid) {
-  galeria.innerHTML = "<p>Carregando...</p>";
+  mostrarSkeletonGaleria();
 
   const itens = await listarBonecosDoUsuario(uid);
   itensCache = itens;
@@ -150,7 +231,18 @@ async function carregarGaleria(uid) {
   });
 }
 
-/* ================= DETALHE ================= */
+function mostrarSkeletonGaleria() {
+  galeria.innerHTML = `
+    <div class="card skeleton skeleton-card"></div>
+    <div class="card skeleton skeleton-card"></div>
+    <div class="card skeleton skeleton-card"></div>
+    <div class="card skeleton skeleton-card"></div>
+  `;
+}
+
+/* =========================================================
+   MODAL – DETALHE DO ITEM
+========================================================= */
 fecharDetalheBtn.addEventListener("click", fecharDetalhe);
 
 detalheOverlay.addEventListener("click", (e) => {
@@ -161,6 +253,7 @@ function abrirDetalhe(item) {
   detalheNome.textContent = item.nome;
   detalheDescricao.textContent = item.descricao || "";
   detalheImagem.src = item.imagemUrl || "";
+
   detalheOverlay.style.display = "flex";
 }
 
@@ -168,7 +261,9 @@ function fecharDetalhe() {
   detalheOverlay.style.display = "none";
 }
 
-/* ================= UTIL ================= */
+/* =========================================================
+   UTIL
+========================================================= */
 function limparFormulario() {
   nomeInput.value = "";
   descricaoInput.value = "";

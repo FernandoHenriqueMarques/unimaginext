@@ -10,7 +10,7 @@ import { app } from "./firebase.js";
 const storage = getStorage(app);
 
 export async function uploadImagem({ uid, file }) {
-  const caminho = `itens/${uid}/${Date.now()}_${file.name}`;
+  const caminho = `bonecos/${uid}/${Date.now()}_${file.name}`;
   const storageRef = ref(storage, caminho);
 
   await uploadBytes(storageRef, file);
