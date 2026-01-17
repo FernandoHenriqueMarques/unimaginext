@@ -1,16 +1,19 @@
-import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
+import {
+  getStorage,
+  ref,
+  uploadBytes,
+  getDownloadURL
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
+
 import { app } from "./firebase.js";
 
 const storage = getStorage(app);
 
 export async function uploadImagem({ uid, file }) {
-  const imageRef = ref(storage, `itens/${uid}/${Date.now()}-${file.name}`);
-  await uploadBytes(imageRef, file);
-  return await getDownloadURL(imageRef);
-}
+  const caminho = `bonecos/${uid}/${Date.now()}_${file.name}`;
+  const storageRef = ref(storage, caminho);
 
-export async function removerImagemDoStorage(imagemUrl) {
-  if (!imagemUrl) return;
-  const imageRef = ref(storage, imagemUrl);
-  await deleteObject(imageRef);
+  await uploadBytes(storageRef, file);
+
+  return await getDownloadURL(storageRef);
 }
