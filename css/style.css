@@ -5,6 +5,17 @@
   box-sizing: border-box;
 }
 
+.form input,
+.form textarea {
+  max-width: 100%;
+}
+
+.form input,
+.form textarea {
+  max-width: 100%;
+}
+
+
 /* ===== Base ===== */
 body {
   margin: 0;

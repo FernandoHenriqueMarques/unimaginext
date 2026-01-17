@@ -31,6 +31,9 @@ const removerImagemBtn = document.getElementById("removerImagem");
 
 const btnSalvar = document.getElementById("btnSalvar");
 
+const uploadArea = document.querySelector(".upload-area");
+
+
 /* =========================================================
    ELEMENTOS – MODAL DETALHE
 ========================================================= */
@@ -133,6 +136,9 @@ imagemInput.addEventListener("change", () => {
 
   previewImagem.src = URL.createObjectURL(file);
   previewContainer.classList.remove("preview-hidden");
+
+  // Esconde botão "Adicionar imagem"
+  uploadArea.classList.add("hidden");
 });
 
 removerImagemBtn.addEventListener("click", esconderPreview);
@@ -141,6 +147,7 @@ function esconderPreview() {
   previewImagem.src = "";
   previewContainer.classList.add("preview-hidden");
   imagemInput.value = "";
+  uploadArea.classList.remove("hidden");
 }
 
 /* =========================================================
