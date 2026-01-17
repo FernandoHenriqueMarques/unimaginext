@@ -132,14 +132,14 @@ imagemInput.addEventListener("change", () => {
   if (!file) return esconderPreview();
 
   previewImagem.src = URL.createObjectURL(file);
-  previewContainer.style.display = "block";
+  previewContainer.classList.remove("preview-hidden");
 });
 
 removerImagemBtn.addEventListener("click", esconderPreview);
 
 function esconderPreview() {
   previewImagem.src = "";
-  previewContainer.style.display = "none";
+  previewContainer.classList.add("preview-hidden");
   imagemInput.value = "";
 }
 

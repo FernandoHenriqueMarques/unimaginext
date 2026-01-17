@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8" />
   <title>unimaginext</title>
@@ -20,19 +21,10 @@
     </button>
 
     <!-- Avatar (somente logado) -->
-    <div
-      id="userAvatar"
-      class="avatar"
-      style="display:none;"
-      title="Conta"
-    ></div>
+    <div id="userAvatar" class="avatar" style="display:none;" title="Conta"></div>
 
     <!-- Menu do Avatar -->
-    <div
-      id="avatarMenu"
-      class="avatar-menu"
-      style="display:none;"
-    >
+    <div id="avatarMenu" class="avatar-menu" style="display:none;">
       <button id="menuAddItem" type="button">
         Novo item
       </button>
@@ -59,125 +51,75 @@
   </main>
 
   <!-- ================= FAB ================= -->
-  <button
-    id="fabAdd"
-    class="fab"
-    style="display:none;"
-    aria-label="Adicionar item"
-  >
+  <button id="fabAdd" class="fab" style="display:none;" aria-label="Adicionar item">
     +
   </button>
 
   <!-- ================= MODAL: ADICIONAR ITEM ================= -->
-  <div
-    id="modalOverlay"
-    class="modal-overlay"
-    style="display:none;"
-  >
+  <div id="modalOverlay" class="modal-overlay" style="display:none;">
     <div class="modal">
 
       <header class="modal-header">
         <h2>Novo item</h2>
-        <button
-          id="fecharModal"
-          type="button"
-          class="close-btn"
-          aria-label="Fechar"
-        >
+        <button id="fecharModal" type="button" class="close-btn" aria-label="Fechar">
           ✕
         </button>
       </header>
 
       <form id="formBoneco" class="form">
 
-        <input
-          type="text"
-          id="nomeBoneco"
-          placeholder="Nome do item"
-          required
-        />
+        <!-- ===== CAMPOS ===== -->
+        <div class="form-fields">
+          <input type="text" id="nomeBoneco" placeholder="Nome do item" required />
 
-        <textarea
-          id="descricaoBoneco"
-          placeholder="Descrição (opcional)"
-        ></textarea>
+          <textarea id="descricaoBoneco" placeholder="Descrição (opcional)"></textarea>
+        </div>
 
-        <input
-          type="file"
-          id="imagemBoneco"
-          accept="image/*"
-        />
+        <!-- ===== UPLOAD ===== -->
+        <div class="upload-area">
+          <label class="upload-label">
+            <input type="file" id="imagemBoneco" accept="image/*" />
+            <span>Adicionar imagem</span>
+          </label>
+        </div>
 
-        <!-- Preview opcional -->
-        <div
-          id="previewContainer"
-          class="preview"
-          style="display:none;"
-        >
-          <img
-            id="previewImagem"
-            alt="Preview da imagem"
-          />
+        <!-- ===== PREVIEW (espaço reservado) ===== -->
+        <div id="previewContainer" class="preview preview-hidden">
+          <img id="previewImagem" alt="Preview da imagem" />
 
-          <button
-            type="button"
-            id="removerImagem"
-            class="btn-secondary"
-          >
+          <button type="button" id="removerImagem" class="btn-secondary">
             Remover imagem
           </button>
         </div>
 
-        <!-- Ações -->
+        <!-- ===== AÇÕES (FIXAS) ===== -->
         <div class="modal-actions">
-          <button
-            type="submit"
-            class="btn-primary"
-            id="btnSalvar"
-          >
+          <button type="submit" class="btn-primary" id="btnSalvar">
             <span class="btn-text">Salvar item</span>
-            <span
-              class="btn-spinner"
-              style="display:none;"
-            ></span>
+            <span class="btn-spinner" style="display:none;"></span>
           </button>
         </div>
 
       </form>
+
     </div>
   </div>
 
   <!-- ================= MODAL: DETALHE DO ITEM ================= -->
-  <div
-    id="detalheOverlay"
-    class="modal-overlay"
-    style="display:none;"
-  >
+  <div id="detalheOverlay" class="modal-overlay" style="display:none;">
     <div class="modal modal-detalhe">
 
       <header class="modal-header">
         <h2 id="detalheNome"></h2>
-        <button
-          id="fecharDetalhe"
-          type="button"
-          class="close-btn"
-          aria-label="Fechar"
-        >
+        <button id="fecharDetalhe" type="button" class="close-btn" aria-label="Fechar">
           ✕
         </button>
       </header>
 
       <div class="detalhe-conteudo">
-        <img
-          id="detalheImagem"
-          class="detalhe-imagem"
-          alt="Imagem do item"
-        />
+        <img id="detalheImagem" class="detalhe-imagem" alt="Imagem do item" />
 
-        <p
-          id="detalheDescricao"
-          class="detalhe-descricao"
-        ></p>
+        <p id="detalheDescricao" class="detalhe-descricao"></p>
       </div>
 
     </div>
@@ -187,4 +129,5 @@
   <script type="module" src="js/app.js"></script>
 
 </body>
+
 </html>
