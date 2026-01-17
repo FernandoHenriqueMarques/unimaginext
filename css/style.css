@@ -333,3 +333,38 @@ button[disabled] {
 .preview-hidden {
   display: none;
 }
+
+/* ===== Modal com scroll interno ===== */
+.modal {
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Conteúdo rolável do modal */
+.modal form {
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+/* Ações sempre visíveis */
+.modal-actions {
+  margin-top: 16px;
+  position: sticky;
+  bottom: 0;
+  background: white;
+  padding-top: 12px;
+}
+
+/* ===== Controle de campos ===== */
+.form input[type="text"] {
+  height: 44px;
+}
+
+.form textarea {
+  min-height: 80px;
+  max-height: 140px;
+  resize: none;
+  overflow-y: auto;
+}
+
