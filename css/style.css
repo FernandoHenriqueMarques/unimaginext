@@ -1,38 +1,58 @@
+/* ===== Base ===== */
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, Helvetica, Arial, sans-serif;
   background: #f9fafb;
+  color: #111827;
 }
 
 button {
   border: none;
-  padding: 10px 14px;
+  background: #2563eb;
+  color: white;
   border-radius: 8px;
+  padding: 10px 14px;
   cursor: pointer;
 }
 
+button:hover {
+  opacity: 0.9;
+}
+
+button[disabled] {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* ===== Top Bar ===== */
 .topbar {
+  position: sticky;
+  top: 0;
   height: 56px;
+  background: white;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 20px;
-  background: white;
   box-shadow: 0 1px 6px rgba(0,0,0,0.05);
+  z-index: 10;
 }
 
 .logo {
   font-weight: 600;
+  font-size: 1.1rem;
 }
 
 .avatar {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: #ddd;
+  background: #e5e7eb;
   cursor: pointer;
 }
 
+/* ===== Menu do Avatar ===== */
 .avatar-menu {
   position: absolute;
   top: 56px;
@@ -41,34 +61,83 @@ button {
   border-radius: 12px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.12);
   padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  z-index: 20;
 }
 
+.avatar-menu button {
+  background: transparent;
+  color: #111827;
+  text-align: left;
+  padding: 10px 12px;
+  border-radius: 8px;
+}
+
+.avatar-menu button:hover {
+  background: #f3f4f6;
+}
+
+/* ===== Layout ===== */
 .container {
   max-width: 1200px;
-  margin: auto;
+  margin: 0 auto;
   padding: 24px;
 }
 
+/* ===== Hero ===== */
+.hero {
+  margin-bottom: 32px;
+}
+
+.hero h1 {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.hero p {
+  margin-top: 4px;
+  color: #6b7280;
+}
+
+/* ===== Galeria ===== */
 #galeria {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px,1fr));
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 20px;
 }
 
+/* ===== Card ===== */
 .card {
   background: white;
   border-radius: 14px;
   padding: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
   cursor: pointer;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
 }
 
 .card img {
   width: 100%;
-  aspect-ratio: 1/1;
+  aspect-ratio: 1 / 1;
   object-fit: cover;
   border-radius: 10px;
+  margin-bottom: 10px;
 }
 
+.card h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+/* ===== FAB ===== */
 .fab {
   position: fixed;
   bottom: 24px;
@@ -79,48 +148,151 @@ button {
   font-size: 2rem;
   background: #2563eb;
   color: white;
-}
-
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.4);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.modal {
-  background: white;
-  padding: 20px;
-  border-radius: 16px;
-  width: 100%;
-  max-width: 420px;
+/* ===== Modal ===== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
 }
 
-.modal-detalhe {
-  max-width: 520px;
+.modal {
+  background: white;
+  width: 100%;
+  max-width: 420px;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.close-btn {
+  background: transparent;
+  color: #111827;
+  font-size: 1.2rem;
+  padding: 4px 8px;
+}
+
+/* ===== Form ===== */
+.form input,
+.form textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+}
+
+/* ===== Preview ===== */
+.preview img {
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 6px;
+}
+
+/* ===== Ações ===== */
+.modal-actions {
+  margin-top: 16px;
 }
 
 .btn-primary {
-  background: #2563eb;
-  color: white;
   width: 100%;
+  border-radius: 10px;
+  padding: 12px;
+  font-weight: 500;
 }
 
 .btn-secondary {
   background: #e5e7eb;
+  color: #111827;
+  border-radius: 10px;
+  padding: 10px;
 }
 
+/* ===== Spinner ===== */
 .btn-spinner {
   width: 16px;
   height: 16px;
-  border: 2px solid rgba(255,255,255,.4);
+  border: 2px solid rgba(255,255,255,0.4);
   border-top-color: white;
   border-radius: 50%;
-  animation: spin .8s linear infinite;
+  animation: spin 0.8s linear infinite;
+  display: inline-block;
+  margin-left: 8px;
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ===== Skeleton ===== */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    #e5e7eb 25%,
+    #f3f4f6 37%,
+    #e5e7eb 63%
+  );
+  background-size: 400% 100%;
+  animation: skeleton-loading 1.4s ease infinite;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
+}
+
+.skeleton-card {
+  height: 260px;
+  border-radius: 14px;
+}
+
+/* ===== Detalhe ===== */
+.modal-detalhe {
+  max-width: 520px;
+}
+
+.detalhe-conteudo {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.detalhe-imagem {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 14px;
+}
+
+.detalhe-descricao {
+  font-size: 0.95rem;
+  color: #374151;
+  line-height: 1.5;
 }
