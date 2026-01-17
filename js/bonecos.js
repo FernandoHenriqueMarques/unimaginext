@@ -1,39 +1,29 @@
-import {
-  getFirestore,
-  collection,
-  query,
-  where,
-  getDocs,
-  addDoc,
-  serverTimestamp
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
+import { getFirestore, collection, addDoc, query, where, getDocs, deleteDoc, doc, serverTimestamp } from "firebase/firestore";
 import { app } from "./firebase.js";
 
 const db = getFirestore(app);
+const collectionRef = collection(db, "bonecos");
 
-// 🔍 já existente
-export async function listarBonecosDoUsuario(uid) {
-  const bonecosRef = collection(db, "bonecos");
-  const q = query(bonecosRef, where("ownerId", "==", uid));
-  const snapshot = await getDocs(q);
-
-  return snapshot.docs.map(doc => ({
-    id: doc.id,
-    ...doc.data()
-  }));
-}
-
-// ➕ NOVA FUNÇÃO
 export async function adicionarBoneco({ uid, nome, descricao, imagemUrl }) {
-  const ref = collection(db, "bonecos");
-
-  await addDoc(ref, {
+  await addDoc(collectionRef, {
     ownerId: uid,
     nome,
     descricao,
-    imagemUrl: imagemUrl || "",
-    criadoEm: serverTimestamp(),
-    atualizadoEm: serverTimestamp()
+    imagemUrl,
+    criadoEm: serverTimestamp()
   });
+}
+
+export async function listarBonecosDoUsuario(uid) {
+  const q = query(collectionRef, where("ownerId", "==", uid));
+  const snapshot = await getDocs(q);
+
+  return snapshot.docs.map(docSnap => ({
+    id: docSnap.id,
+    ...docSnap.data()
+  }));
+}
+
+export async function excluirItem(itemId) {
+  await deleteDoc(doc(db, "bonecos", itemId));
 }
