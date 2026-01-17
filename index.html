@@ -4,85 +4,187 @@
   <meta charset="UTF-8" />
   <title>unimaginext</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <link rel="stylesheet" href="css/style.css" />
 </head>
 
 <body>
 
-  <!-- TOP BAR -->
+  <!-- ================= TOP BAR ================= -->
   <header class="topbar">
     <div class="logo">unimaginext</div>
 
-    <button id="loginGoogle" type="button">Entrar</button>
+    <!-- Login (somente deslogado) -->
+    <button id="loginGoogle" type="button">
+      Entrar
+    </button>
 
-    <div id="userAvatar" class="avatar" style="display:none;"></div>
+    <!-- Avatar (somente logado) -->
+    <div
+      id="userAvatar"
+      class="avatar"
+      style="display:none;"
+      title="Conta"
+    ></div>
 
-    <div id="avatarMenu" class="avatar-menu" style="display:none;">
-      <button id="menuAddItem">Novo item</button>
-      <button id="menuLogout">Sair</button>
+    <!-- Menu do Avatar -->
+    <div
+      id="avatarMenu"
+      class="avatar-menu"
+      style="display:none;"
+    >
+      <button id="menuAddItem" type="button">
+        Novo item
+      </button>
+      <button id="menuLogout" type="button">
+        Sair
+      </button>
     </div>
   </header>
 
-  <!-- CONTEÚDO -->
+  <!-- ================= CONTEÚDO ================= -->
   <main class="container">
+
+    <!-- HERO -->
     <section class="hero">
       <h1>Minha coleção</h1>
-      <p>Gerencie seus itens pessoais</p>
+      <p id="contadorBonecos">
+        Gerencie seus itens pessoais
+      </p>
     </section>
 
+    <!-- GALERIA -->
     <section id="galeria"></section>
+
   </main>
 
-  <!-- FAB -->
-  <button id="fabAdd" class="fab" style="display:none;">+</button>
+  <!-- ================= FAB ================= -->
+  <button
+    id="fabAdd"
+    class="fab"
+    style="display:none;"
+    aria-label="Adicionar item"
+  >
+    +
+  </button>
 
-  <!-- MODAL: NOVO ITEM -->
-  <div id="modalOverlay" class="modal-overlay" style="display:none;">
+  <!-- ================= MODAL: ADICIONAR ITEM ================= -->
+  <div
+    id="modalOverlay"
+    class="modal-overlay"
+    style="display:none;"
+  >
     <div class="modal">
+
       <header class="modal-header">
         <h2>Novo item</h2>
-        <button id="fecharModal" class="close-btn">✕</button>
+        <button
+          id="fecharModal"
+          type="button"
+          class="close-btn"
+          aria-label="Fechar"
+        >
+          ✕
+        </button>
       </header>
 
       <form id="formBoneco" class="form">
-        <input id="nomeBoneco" placeholder="Nome do item" required />
-        <textarea id="descricaoBoneco" placeholder="Descrição (opcional)"></textarea>
-        <input id="imagemBoneco" type="file" accept="image/*" />
 
-        <div id="previewContainer" class="preview" style="display:none;">
-          <img id="previewImagem" />
-          <button id="removerImagem" type="button" class="btn-secondary">
+        <input
+          type="text"
+          id="nomeBoneco"
+          placeholder="Nome do item"
+          required
+        />
+
+        <textarea
+          id="descricaoBoneco"
+          placeholder="Descrição (opcional)"
+        ></textarea>
+
+        <input
+          type="file"
+          id="imagemBoneco"
+          accept="image/*"
+        />
+
+        <!-- Preview opcional -->
+        <div
+          id="previewContainer"
+          class="preview"
+          style="display:none;"
+        >
+          <img
+            id="previewImagem"
+            alt="Preview da imagem"
+          />
+
+          <button
+            type="button"
+            id="removerImagem"
+            class="btn-secondary"
+          >
             Remover imagem
           </button>
         </div>
 
+        <!-- Ações -->
         <div class="modal-actions">
-          <button id="btnSalvar" type="submit" class="btn-primary">
+          <button
+            type="submit"
+            class="btn-primary"
+            id="btnSalvar"
+          >
             <span class="btn-text">Salvar item</span>
-            <span class="btn-spinner" style="display:none;"></span>
+            <span
+              class="btn-spinner"
+              style="display:none;"
+            ></span>
           </button>
         </div>
+
       </form>
     </div>
   </div>
 
-  <!-- MODAL: DETALHE -->
-  <div id="detalheOverlay" class="modal-overlay" style="display:none;">
+  <!-- ================= MODAL: DETALHE DO ITEM ================= -->
+  <div
+    id="detalheOverlay"
+    class="modal-overlay"
+    style="display:none;"
+  >
     <div class="modal modal-detalhe">
+
       <header class="modal-header">
         <h2 id="detalheNome"></h2>
-        <button id="fecharDetalhe" class="close-btn">✕</button>
+        <button
+          id="fecharDetalhe"
+          type="button"
+          class="close-btn"
+          aria-label="Fechar"
+        >
+          ✕
+        </button>
       </header>
 
-      <img id="detalheImagem" class="detalhe-imagem" />
-      <p id="detalheDescricao" class="detalhe-descricao"></p>
+      <div class="detalhe-conteudo">
+        <img
+          id="detalheImagem"
+          class="detalhe-imagem"
+          alt="Imagem do item"
+        />
 
-      <div class="detalhe-acoes">
-        <button id="btnExcluirItem" class="btn-secondary">Excluir item</button>
+        <p
+          id="detalheDescricao"
+          class="detalhe-descricao"
+        ></p>
       </div>
+
     </div>
   </div>
 
+  <!-- ================= SCRIPT ================= -->
   <script type="module" src="js/app.js"></script>
+
 </body>
 </html>
