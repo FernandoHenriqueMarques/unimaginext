@@ -2,7 +2,9 @@ import {
   getStorage,
   ref,
   uploadBytes,
-  getDownloadURL
+  getDownloadURL,
+  deleteObject,
+  ref
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
 import { app } from "./firebase.js";
@@ -16,4 +18,11 @@ export async function uploadImagem({ uid, file }) {
   await uploadBytes(storageRef, file);
 
   return await getDownloadURL(storageRef);
+}
+
+export async function excluirImagemPorUrl(imagemUrl) {
+  if (!imagemUrl) return;
+
+  const storageRef = ref(storage, imagemUrl);
+  await deleteObject(storageRef);
 }

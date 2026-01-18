@@ -1,6 +1,12 @@
 import { loginWithGoogle, logout, onUserChange } from "./auth.js";
 import { listarBonecosDoUsuario, adicionarBoneco } from "./bonecos.js";
 import { uploadImagem } from "./storage.js";
+import { excluirBoneco } from "./bonecos.js";
+import { excluirImagemPorUrl } from "./storage.js";
+
+
+let itemDetalheAtual = null;
+
 
 /* =========================================================
    ELEMENTOS – HEADER / HOME
@@ -42,6 +48,9 @@ const fecharDetalheBtn = document.getElementById("fecharDetalhe");
 const detalheNome = document.getElementById("detalheNome");
 const detalheImagem = document.getElementById("detalheImagem");
 const detalheDescricao = document.getElementById("detalheDescricao");
+
+const btnExcluirItem = document.getElementById("btnExcluirItem");
+
 
 /* =========================================================
    ESTADO
@@ -255,6 +264,8 @@ detalheOverlay.addEventListener("click", (e) => {
 });
 
 function abrirDetalhe(item) {
+  itemDetalheAtual = item;
+
   detalheNome.textContent = item.nome;
   detalheDescricao.textContent = item.descricao || "";
   detalheImagem.src = item.imagemUrl || "";
@@ -264,6 +275,7 @@ function abrirDetalhe(item) {
 
 function fecharDetalhe() {
   detalheOverlay.style.display = "none";
+  itemDetalheAtual = null;
 }
 
 /* =========================================================
@@ -274,3 +286,31 @@ function limparFormulario() {
   descricaoInput.value = "";
   esconderPreview();
 }
+
+btnExcluirItem.addEventListener("click", async () => {
+  if (!itemDetalheAtual || !usuarioAtual) return;
+
+  const confirmado = confirm(
+    "Excluir este item?\nEssa ação não pode ser desfeita."
+  );
+
+  if (!confirmado) return;
+
+  try {
+    // 1. Exclui imagem (se existir)
+    await excluirImagemPorUrl(itemDetalheAtual.imagemUrl);
+
+    // 2. Exclui documento
+    await excluirBoneco({ id: itemDetalheAtual.id });
+
+    // 3. Fecha modal
+    fecharDetalhe();
+
+    // 4. Atualiza galeria
+    await carregarGaleria(usuarioAtual.uid);
+  } catch (e) {
+    alert("Erro ao excluir o item.");
+    console.error(e);
+  }
+});
+

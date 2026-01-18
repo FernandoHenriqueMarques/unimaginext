@@ -3,6 +3,8 @@ import {
   collection,
   query,
   where,
+  deleteDoc,
+  doc,
   getDocs,
   addDoc,
   serverTimestamp
@@ -22,6 +24,11 @@ export async function listarBonecosDoUsuario(uid) {
     id: doc.id,
     ...doc.data()
   }));
+}
+
+export async function excluirBoneco({ id }) {
+  const ref = doc(db, "bonecos", id);
+  await deleteDoc(ref);
 }
 
 // ➕ NOVA FUNÇÃO

@@ -384,3 +384,25 @@ button[disabled] {
   resize: none;
   overflow-y: auto;
 }
+
+/* ===== Header com ações ===== */
+.modal-header-actions {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Botão de exclusão */
+.btn-danger-icon {
+  background: transparent;
+  color: #6b7280;
+  font-size: 1.1rem;
+  padding: 6px;
+}
+
+.btn-danger-icon:hover {
+  background: #fee2e2;
+  color: #b91c1c;
+  border-radius: 8px;
+}
