@@ -1,129 +1,110 @@
-# imaginext
+# unimaginext
 
-unimaginext é um projeto pessoal de galeria de bonecos, focado inicialmente na linha **Imaginext**, com o conceito de **“ideias não imaginadas antes”**.
+**unimaginext** é um projeto pessoal de galeria digital para coleções de bonecos, inspirado inicialmente na linha **Imaginext**, mas com um conceito mais amplo:
 
-O objetivo do projeto é permitir que **cada usuário gerencie a sua própria galeria**, de forma simples, segura e gratuita, utilizando apenas tecnologias frontend e serviços BaaS (Backend as a Service).
+> **“Ideias não imaginadas antes.”**
+
+O projeto foi desenhado para ser:
+- pessoal
+- elegante
+- seguro
+- gratuito (ou de custo mínimo)
+- fácil de evoluir
+- totalmente frontend, sem backend próprio
+
+Cada usuário gerencia **exclusivamente a sua própria coleção**, sem qualquer conceito de “admin”.
 
 ---
 
 ## 🎯 Objetivo do Projeto
 
-- Criar uma **galeria pessoal de bonecos**
-- Cada usuário vê e gerencia **apenas os seus próprios itens**
-- Projeto simples, evolutivo e sem backend próprio
-- Hospedagem gratuita via GitHub Pages
+- Permitir que qualquer usuário crie e gerencie **sua própria galeria pessoal**
+- Garantir **isolamento total dos dados** entre usuários
+- Manter o projeto simples, sustentável e sem dependência de frameworks
+- Servir como base para futuras evoluções (ex: compartilhamento público)
+
+---
+
+## 🧠 Filosofia de UX
+
+- Interface limpa e discreta  
+- Ações destrutivas sempre protegidas  
+- Separação clara entre visualizar, editar e excluir  
+- UX mobile-first, responsivo no desktop  
 
 ---
 
 ## 🏗️ Arquitetura Geral
 
-GitHub Pages (Frontend)  
-└── Firebase Authentication (Login Google)  
-└── Firebase Firestore (Banco de dados)  
-└── Cloudinary (Hospedagem de imagens - planejado)
-
----
-
-## 🌐 Hospedagem
-
-- **GitHub Pages**
-- Repositório público
-- Site estático (HTML, CSS e JavaScript)
-- Deploy automático a cada commit
+GitHub Pages (Frontend estático)  
+Firebase Authentication (Login Google)  
+Firebase Firestore (Banco NoSQL)  
+Firebase Storage (Imagens)
 
 ---
 
 ## 🔐 Autenticação
 
-- **Firebase Authentication**
-- Login exclusivo com **Google**
-- Não existe conceito de “admin”
-- Cada usuário acessa somente seus próprios dados
-- Identidade baseada no `uid` do Firebase
+- Login via Google
+- Identidade baseada no `uid`
+- Cada usuário acessa apenas seus próprios dados
 
 ---
 
 ## 🗄️ Banco de Dados
 
-- **Firebase Firestore**
-- Banco NoSQL
-- Regras de segurança baseadas no `ownerId`
+Coleção principal: `bonecos`
 
-### 📁 Coleção principal
-
-bonecos
-
-### 📄 Estrutura de um documento (modelo minimalista)
-
+```json
 {
   "ownerId": "UID_DO_USUARIO",
-  "nome": "Nome do boneco",
-  "descricao": "Descrição do boneco",
+  "nome": "Nome do item",
+  "descricao": "Descrição opcional",
   "imagemUrl": "https://...",
   "criadoEm": "timestamp",
   "atualizadoEm": "timestamp"
 }
+```
 
 ---
 
-## 🧩 Estrutura do Projeto
+## 🧩 Organização do Código
 
+```
 /
 ├─ index.html
 ├─ css/
 │  └─ style.css
 └─ js/
-   ├─ firebase.js
-   ├─ auth.js
-   ├─ bonecos.js
-   └─ app.js
+   ├─ app.js
+   ├─ state/
+   │  └─ session.js
+   ├─ components/
+   │  ├─ header.js
+   │  ├─ gallery.js
+   │  ├─ modalAdd.js
+   │  ├─ modalDetail.js
+   │  └─ modalEdit.js
+   └─ services/
+      ├─ firebase.js
+      ├─ auth.js
+      ├─ bonecos.js
+      └─ storage.js
+```
 
 ---
 
-## ✅ Funcionalidades Implementadas
+## ✅ Funcionalidades
 
-- Site publicado via GitHub Pages
-- Login com Google (Firebase Auth)
-- Sessão persistente do usuário
-- Firestore configurado em modo production
-- Regras de segurança por usuário
-- Listagem de bonecos do usuário logado
-- Mensagem de galeria vazia
-- Adição de novos bonecos (nome + descrição)
-- Persistência segura por usuário
-- Código organizado em múltiplos arquivos
+- Login com Google
+- CRUD completo de itens
+- Upload e remoção de imagens
+- Galeria em grid responsivo
+- Modais dedicados
+- Arquitetura desacoplada
 
 ---
 
-## 🚫 Decisões Importantes
+## 📌 Status
 
-- Não usar backend próprio
-- Não usar Firebase Storage (para evitar custos)
-- Não usar framework frontend neste momento
-- Não ter área de admin separada
-- Priorizar soluções gratuitas
-
----
-
-## 🖼️ Hospedagem de Imagens (Planejado)
-
-### Solução escolhida
-- **Cloudinary (plano gratuito)**
-
----
-
-## 🚀 Próximos Passos
-
-- Configurar Cloudinary (Unsigned Upload)
-- Upload de imagem do boneco
-- Salvar `imagemUrl` no Firestore
-- Exibir imagem na galeria
-- Melhorar layout da galeria
-- Editar e remover bonecos
-
----
-
-## 📌 Status Atual
-
-Projeto funcional e estável  
-Upload de imagens pendente (Cloudinary)
+Projeto funcional, estável e pronto para evoluir.
