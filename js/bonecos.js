@@ -7,6 +7,7 @@ import {
   doc,
   getDocs,
   addDoc,
+  updateDoc,  
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
@@ -41,6 +42,14 @@ export async function adicionarBoneco({ uid, nome, descricao, imagemUrl }) {
     descricao,
     imagemUrl: imagemUrl || "",
     criadoEm: serverTimestamp(),
+    atualizadoEm: serverTimestamp()
+  });
+}
+
+export async function atualizarBoneco({ id, dados }) {
+  const ref = doc(db, "bonecos", id);
+  await updateDoc(ref, {
+    ...dados,
     atualizadoEm: serverTimestamp()
   });
 }

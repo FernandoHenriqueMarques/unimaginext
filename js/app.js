@@ -6,6 +6,28 @@ import { excluirImagemPorUrl } from "./storage.js";
 
 
 let itemDetalheAtual = null;
+let itemEmEdicao = null;
+let imagemEditadaFile = null;
+let removerImagemAtual = false;
+
+const modalEditarOverlay = document.getElementById("modalEditarOverlay");
+const fecharEditarBtn = document.getElementById("fecharEditar");
+
+const formEditar = document.getElementById("formEditar");
+const editarNome = document.getElementById("editarNome");
+const editarDescricao = document.getElementById("editarDescricao");
+const editarImagem = document.getElementById("editarImagem");
+
+const editarPreview = document.getElementById("editarPreview");
+const editarPreviewImagem = document.getElementById("editarPreviewImagem");
+const editarRemoverImagemBtn = document.getElementById("editarRemoverImagem");
+const editarUploadArea = document.getElementById("editarUploadArea");
+
+const btnSalvarEdicao = document.getElementById("btnSalvarEdicao");
+
+const btnEditarItem = document.getElementById("btnEditarItem");
+
+
 
 
 /* =========================================================
@@ -314,3 +336,99 @@ btnExcluirItem.addEventListener("click", async () => {
   }
 });
 
+btnEditarItem.addEventListener("click", () => {
+  if (!itemDetalheAtual) return;
+
+  fecharDetalhe();
+  abrirModalEditar(itemDetalheAtual);
+});
+
+function abrirModalEditar(item) {
+  itemEmEdicao = item;
+  removerImagemAtual = false;
+  imagemEditadaFile = null;
+
+  editarNome.value = item.nome;
+  editarDescricao.value = item.descricao || "";
+
+  if (item.imagemUrl) {
+    editarPreviewImagem.src = item.imagemUrl;
+    editarPreview.classList.remove("preview-hidden");
+    editarUploadArea.classList.add("hidden");
+  } else {
+    editarPreview.classList.add("preview-hidden");
+    editarUploadArea.classList.remove("hidden");
+  }
+
+  modalEditarOverlay.style.display = "flex";
+}
+
+editarImagem.addEventListener("change", () => {
+  const file = editarImagem.files[0];
+  if (!file) return;
+
+  imagemEditadaFile = file;
+  removerImagemAtual = false;
+
+  editarPreviewImagem.src = URL.createObjectURL(file);
+  editarPreview.classList.remove("preview-hidden");
+  editarUploadArea.classList.add("hidden");
+});
+
+editarRemoverImagemBtn.addEventListener("click", () => {
+  removerImagemAtual = true;
+  imagemEditadaFile = null;
+
+  editarPreviewImagem.src = "";
+  editarPreview.classList.add("preview-hidden");
+  editarUploadArea.classList.remove("hidden");
+});
+
+formEditar.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  if (!itemEmEdicao || !usuarioAtual) return;
+
+  const nome = editarNome.value.trim();
+  if (!nome) return;
+
+  btnSalvarEdicao.disabled = true;
+
+  let imagemUrl = itemEmEdicao.imagemUrl || "";
+
+  try {
+    // Remove imagem antiga
+    if (removerImagemAtual && imagemUrl) {
+      await excluirImagemPorUrl(imagemUrl);
+      imagemUrl = "";
+    }
+
+    // Substitui imagem
+    if (imagemEditadaFile) {
+      if (imagemUrl) {
+        await excluirImagemPorUrl(imagemUrl);
+      }
+
+      imagemUrl = await uploadImagem({
+        uid: usuarioAtual.uid,
+        file: imagemEditadaFile
+      });
+    }
+
+    await atualizarBoneco({
+      id: itemEmEdicao.id,
+      dados: {
+        nome,
+        descricao: editarDescricao.value.trim(),
+        imagemUrl
+      }
+    });
+
+    modalEditarOverlay.style.display = "none";
+    await carregarGaleria(usuarioAtual.uid);
+  } catch (err) {
+    console.error(err);
+    alert("Erro ao salvar alterações.");
+  } finally {
+    btnSalvarEdicao.disabled = false;
+  }
+});
