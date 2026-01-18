@@ -1,9 +1,7 @@
 import { loginWithGoogle, logout, onUserChange } from "./auth.js";
-import { listarBonecosDoUsuario, adicionarBoneco } from "./bonecos.js";
 import { uploadImagem } from "./storage.js";
-import { excluirBoneco } from "./bonecos.js";
 import { excluirImagemPorUrl } from "./storage.js";
-
+import { listarBonecosDoUsuario, adicionarBoneco, excluirBoneco, atualizarBoneco } from "./bonecos.js";
 
 let itemDetalheAtual = null;
 let itemEmEdicao = null;
@@ -347,7 +345,7 @@ btnEditarItem.addEventListener("click", () => {
 
 function abrirModalEditar(item) {
   if (!item) return;
-  
+
   itemEmEdicao = item;
   removerImagemAtual = false;
   imagemEditadaFile = null;
