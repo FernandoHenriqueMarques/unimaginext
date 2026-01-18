@@ -339,11 +339,15 @@ btnExcluirItem.addEventListener("click", async () => {
 btnEditarItem.addEventListener("click", () => {
   if (!itemDetalheAtual) return;
 
+  const itemParaEditar = itemDetalheAtual;
   fecharDetalhe();
-  abrirModalEditar(itemDetalheAtual);
+  abrirModalEditar(itemParaEditar);
 });
 
+
 function abrirModalEditar(item) {
+  if (!item) return;
+  
   itemEmEdicao = item;
   removerImagemAtual = false;
   imagemEditadaFile = null;
