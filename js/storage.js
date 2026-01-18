@@ -3,8 +3,7 @@ import {
   ref,
   uploadBytes,
   getDownloadURL,
-  deleteObject,
-  ref
+  deleteObject
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
 import { app } from "./firebase.js";
