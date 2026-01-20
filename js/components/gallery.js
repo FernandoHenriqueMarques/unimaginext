@@ -1,3 +1,4 @@
+// gallery.js
 import { listarBonecosDoUsuario } from "../bonecos.js";
 import {
   getUsuario,
@@ -20,21 +21,36 @@ function renderGaleria(itens) {
 
   galeria.innerHTML = itens.map((item, index) => `
     <div class="card" data-index="${index}">
-      ${item.imagemUrl ? `<img src="${item.imagemUrl}" />` : ""}
+      ${
+        item.imagemUrl
+          ? `<img 
+              src="${item.imagemUrl}" 
+              loading="lazy" 
+              decoding="async"
+              alt="${item.nome}"
+            />`
+          : ""
+      }
       <h3>${item.nome}</h3>
     </div>
   `).join("");
-
-  galeria.querySelectorAll(".card").forEach(card => {
-    card.addEventListener("click", () => {
-      const index = card.dataset.index;
-      const item = itensCache[index];
-
-      setItemDetalhe(item);
-      document.dispatchEvent(new CustomEvent("gallery:itemClick"));
-    });
-  });
 }
+
+/* =====================
+   EVENT DELEGATION
+===================== */
+galeria.onclick = (e) => {
+  const card = e.target.closest(".card");
+  if (!card) return;
+
+  const index = card.dataset.index;
+  const item = itensCache[index];
+
+  if (!item) return;
+
+  setItemDetalhe(item);
+  document.dispatchEvent(new CustomEvent("gallery:itemClick"));
+};
 
 /* =====================
    SKELETON

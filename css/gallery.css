@@ -26,6 +26,7 @@
   object-fit: cover;
   border-radius: 10px;
   margin-bottom: 10px;
+  will-change: transform;
 }
 
 .card h3 {
@@ -50,7 +51,8 @@
   100% { background-position: 0 50%; }
 }
 
+/* Skeleton card com proporção próxima ao real */
 .skeleton-card {
-  height: 260px;
+  height: 280px;
   border-radius: 14px;
 }
