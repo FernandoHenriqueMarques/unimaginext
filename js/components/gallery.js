@@ -1,4 +1,3 @@
-// gallery.js
 import { listarBonecosDoUsuario } from "../bonecos.js";
 import {
   getUsuario,
@@ -53,14 +52,16 @@ galeria.onclick = (e) => {
 };
 
 /* =====================
-   SKELETON
+   SKELETON (UX)
 ===================== */
 function renderSkeleton() {
   galeria.innerHTML = `
-    <div class="card skeleton skeleton-card"></div>
-    <div class="card skeleton skeleton-card"></div>
-    <div class="card skeleton skeleton-card"></div>
-    <div class="card skeleton skeleton-card"></div>
+    ${Array.from({ length: 6 }).map(() => `
+      <div class="card skeleton-card">
+        <div class="skeleton skeleton-image"></div>
+        <div class="skeleton skeleton-title"></div>
+      </div>
+    `).join("")}
   `;
 }
 
@@ -72,6 +73,9 @@ export async function carregarGaleria() {
   if (!user) return;
 
   renderSkeleton();
+
+  // Delay mínimo para evitar "piscar" do skeleton
+  await new Promise(resolve => setTimeout(resolve, 300));
 
   const itens = await listarBonecosDoUsuario(user.uid);
   itensCache = itens;

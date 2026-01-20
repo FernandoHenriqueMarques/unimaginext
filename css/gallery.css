@@ -34,7 +34,7 @@
   font-size: 1rem;
 }
 
-/* ===== Skeleton ===== */
+/* ===== Skeleton (base) ===== */
 .skeleton {
   background: linear-gradient(
     90deg,
@@ -51,8 +51,22 @@
   100% { background-position: 0 50%; }
 }
 
-/* Skeleton card com proporção próxima ao real */
+/* ===== Skeleton Card (UX) ===== */
 .skeleton-card {
-  height: 280px;
-  border-radius: 14px;
+  pointer-events: none;
+}
+
+/* imagem simulada */
+.skeleton-image {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 10px;
+  margin-bottom: 12px;
+}
+
+/* título simulado */
+.skeleton-title {
+  height: 16px;
+  width: 70%;
+  border-radius: 6px;
 }
