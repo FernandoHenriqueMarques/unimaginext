@@ -8,6 +8,7 @@ import {
 const galeria = document.getElementById("galeria");
 
 let itensCache = [];
+let ordenacaoAtual = "recentes";
 
 /* =====================
    RENDER
@@ -20,16 +21,15 @@ function renderGaleria(itens) {
 
   galeria.innerHTML = itens.map((item, index) => `
     <div class="card" data-index="${index}">
-      ${
-        item.imagemUrl
-          ? `<img 
+      ${item.imagemUrl
+      ? `<img 
               src="${item.imagemUrl}" 
               loading="lazy" 
               decoding="async"
               alt="${item.nome}"
             />`
-          : ""
-      }
+      : ""
+    }
       <h3>${item.nome}</h3>
     </div>
   `).join("");
@@ -78,7 +78,7 @@ export async function carregarGaleria() {
   await new Promise(resolve => setTimeout(resolve, 300));
 
   const itens = await listarBonecosDoUsuario(user.uid);
-  itensCache = itens;
+  itensCache = ordenarItens(itens, ordenacaoAtual);
 
   renderGaleria(itens);
 }
@@ -95,3 +95,41 @@ document.addEventListener("user:logout", () => {
 });
 
 document.addEventListener("gallery:refresh", carregarGaleria);
+
+/* =====================
+   Ordenação
+===================== */
+function ordenarItens(itens, tipo) {
+  const copia = [...itens];
+
+  switch (tipo) {
+    case "antigos":
+      return copia.sort((a, b) =>
+        a.criadoEm?.seconds - b.criadoEm?.seconds
+      );
+
+    case "az":
+      return copia.sort((a, b) =>
+        a.nome.localeCompare(b.nome)
+      );
+
+    case "za":
+      return copia.sort((a, b) =>
+        b.nome.localeCompare(a.nome)
+      );
+
+    case "recentes":
+    default:
+      return copia.sort((a, b) =>
+        b.criadoEm?.seconds - a.criadoEm?.seconds
+      );
+  }
+}
+
+const selectOrdenacao = document.getElementById("ordenacaoGaleria");
+
+selectOrdenacao.addEventListener("change", (e) => {
+  ordenacaoAtual = e.target.value;
+  const itensOrdenados = ordenarItens(itensCache, ordenacaoAtual);
+  renderGaleria(itensOrdenados);
+});
