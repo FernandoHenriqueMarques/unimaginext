@@ -10,8 +10,14 @@ import { app } from "./firebase.js";
 
 const storage = getStorage(app);
 
+function sanitizeFileName(name) {
+  const normalized = name.replace(/[^\w.\-]/g, "_").slice(0, 80);
+  return normalized || "upload";
+}
+
 export async function uploadImagem({ uid, file }) {
-  const caminho = `bonecos/${uid}/${Date.now()}_${file.name}`;
+  const safeName = sanitizeFileName(file.name);
+  const caminho = `bonecos/${uid}/${Date.now()}_${safeName}`;
   const storageRef = ref(storage, caminho);
 
   await uploadBytes(storageRef, file);
