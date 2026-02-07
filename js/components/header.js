@@ -5,7 +5,26 @@ const loginBtn = document.getElementById("loginGoogle");
 const userAvatar = document.getElementById("userAvatar");
 const avatarMenu = document.getElementById("avatarMenu");
 const menuAddItem = document.getElementById("menuAddItem");
+const menuToggleTheme = document.getElementById("menuToggleTheme");
 const menuLogout = document.getElementById("menuLogout");
+const THEME_STORAGE_KEY = "unimaginext-theme";
+
+const applyTheme = (theme) => {
+  document.body.classList.toggle("theme-dark", theme === "dark");
+  menuToggleTheme.textContent = theme === "dark" ? "Modo claro" : "Modo escuro";
+};
+
+const getInitialTheme = () => {
+  const storedTheme = localStorage.getItem(THEME_STORAGE_KEY);
+  if (storedTheme) {
+    return storedTheme;
+  }
+  return window.matchMedia?.("(prefers-color-scheme: dark)").matches
+    ? "dark"
+    : "light";
+};
+
+applyTheme(getInitialTheme());
 
 /* =====================
    EVENTOS
@@ -25,6 +44,15 @@ document.addEventListener("click", () => {
 menuAddItem.addEventListener("click", () => {
   avatarMenu.style.display = "none";
   document.dispatchEvent(new CustomEvent("ui:addItem"));
+});
+
+menuToggleTheme.addEventListener("click", () => {
+  const nextTheme = document.body.classList.contains("theme-dark")
+    ? "light"
+    : "dark";
+  localStorage.setItem(THEME_STORAGE_KEY, nextTheme);
+  applyTheme(nextTheme);
+  avatarMenu.style.display = "none";
 });
 
 menuLogout.addEventListener("click", logout);

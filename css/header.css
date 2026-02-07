@@ -3,12 +3,12 @@
   position: sticky;
   top: 0;
   height: 56px;
-  background: white;
+  background: var(--color-surface);
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 20px;
-  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 6px var(--color-shadow-soft);
   z-index: 10;
 }
 
@@ -21,7 +21,7 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: #e5e7eb;
+  background: var(--color-border);
   cursor: pointer;
 }
 
@@ -30,9 +30,9 @@
   position: absolute;
   top: 56px;
   right: 20px;
-  background: white;
+  background: var(--color-elevated);
   border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 10px 30px var(--color-shadow-strong);
   padding: 8px;
   display: flex;
   flex-direction: column;
@@ -42,12 +42,12 @@
 
 .avatar-menu button {
   background: transparent;
-  color: #111827;
+  color: var(--color-text);
   text-align: left;
   padding: 10px 12px;
   border-radius: 8px;
 }
 
 .avatar-menu button:hover {
-  background: #f3f4f6;
+  background: var(--color-border);
 }

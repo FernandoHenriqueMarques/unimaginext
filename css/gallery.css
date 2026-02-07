@@ -7,17 +7,17 @@
 
 /* ===== Card ===== */
 .card {
-  background: white;
+  background: var(--color-surface);
   border-radius: 14px;
   padding: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 20px var(--color-shadow-soft);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   cursor: pointer;
 }
 
 .card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 10px 30px var(--color-shadow-strong);
 }
 
 .card img {
@@ -38,9 +38,9 @@
 .skeleton {
   background: linear-gradient(
     90deg,
-    #e5e7eb 25%,
-    #f3f4f6 37%,
-    #e5e7eb 63%
+    var(--color-skeleton-1) 25%,
+    var(--color-skeleton-2) 37%,
+    var(--color-skeleton-1) 63%
   );
   background-size: 400% 100%;
   animation: skeleton-loading 1.4s ease infinite;
