@@ -18,5 +18,5 @@
 
 .hero p {
   margin-top: 4px;
-  color: #6b7280;
+  color: var(--color-muted);
 }
