@@ -24,6 +24,29 @@ const editarUploadArea = document.getElementById("editarUploadArea");
 
 const btnSalvarEdicao = document.getElementById("btnSalvarEdicao");
 
+const MAX_IMAGE_SIZE_BYTES = 5 * 1024 * 1024;
+const ALLOWED_IMAGE_TYPES = new Set([
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+  "image/gif",
+  "image/avif"
+]);
+
+function validarImagem(file) {
+  if (!ALLOWED_IMAGE_TYPES.has(file.type)) {
+    alert("Formato de imagem inválido. Use PNG, JPG, WEBP, GIF ou AVIF.");
+    return false;
+  }
+
+  if (file.size > MAX_IMAGE_SIZE_BYTES) {
+    alert("A imagem deve ter no máximo 5MB.");
+    return false;
+  }
+
+  return true;
+}
+
 /* =====================
    ESTADO LOCAL
 ===================== */
@@ -75,6 +98,12 @@ editarImagem.addEventListener("change", () => {
   const file = editarImagem.files[0];
   if (!file) return;
 
+  if (!validarImagem(file)) {
+    editarImagem.value = "";
+    resetarPreview();
+    return;
+  }
+
   imagemEditadaFile = file;
   removerImagemAtual = false;
 
@@ -114,6 +143,11 @@ formEditar.addEventListener("submit", async (e) => {
     }
 
     if (imagemEditadaFile) {
+      if (!validarImagem(imagemEditadaFile)) {
+        btnSalvarEdicao.disabled = false;
+        return;
+      }
+
       if (imagemUrl) {
         await excluirImagemPorUrl(imagemUrl);
       }

@@ -20,6 +20,29 @@ const removerImagemBtn = document.getElementById("removerImagem");
 const btnSalvar = document.getElementById("btnSalvar");
 const uploadArea = document.querySelector(".upload-area");
 
+const MAX_IMAGE_SIZE_BYTES = 5 * 1024 * 1024;
+const ALLOWED_IMAGE_TYPES = new Set([
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+  "image/gif",
+  "image/avif"
+]);
+
+function validarImagem(file) {
+  if (!ALLOWED_IMAGE_TYPES.has(file.type)) {
+    alert("Formato de imagem inválido. Use PNG, JPG, WEBP, GIF ou AVIF.");
+    return false;
+  }
+
+  if (file.size > MAX_IMAGE_SIZE_BYTES) {
+    alert("A imagem deve ter no máximo 5MB.");
+    return false;
+  }
+
+  return true;
+}
+
 /* =====================
    OPEN / CLOSE
 ===================== */
@@ -38,6 +61,11 @@ function fecharModalAdicionar() {
 imagemInput.addEventListener("change", () => {
   const file = imagemInput.files[0];
   if (!file) return esconderPreview();
+
+  if (!validarImagem(file)) {
+    imagemInput.value = "";
+    return esconderPreview();
+  }
 
   previewImagem.src = URL.createObjectURL(file);
   previewContainer.classList.remove("preview-hidden");
@@ -92,6 +120,11 @@ form.addEventListener("submit", async (e) => {
     let imagemUrl = "";
 
     if (file) {
+      if (!validarImagem(file)) {
+        setLoading(false);
+        return;
+      }
+
       imagemUrl = await uploadImagem({
         uid: user.uid,
         file

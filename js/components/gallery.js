@@ -13,26 +13,49 @@ let ordenacaoAtual = "recentes";
 /* =====================
    RENDER
 ===================== */
+function isSafeImageUrl(url) {
+  if (!url) return false;
+
+  try {
+    const parsed = new URL(url, window.location.origin);
+    return ["http:", "https:"].includes(parsed.protocol);
+  } catch {
+    return false;
+  }
+}
+
 function renderGaleria(itens) {
   if (itens.length === 0) {
-    galeria.innerHTML = "<p>Sua galeria está vazia.</p>";
+    const vazio = document.createElement("p");
+    vazio.textContent = "Sua galeria está vazia.";
+    galeria.replaceChildren(vazio);
     return;
   }
 
-  galeria.innerHTML = itens.map((item, index) => `
-    <div class="card" data-index="${index}">
-      ${item.imagemUrl
-      ? `<img 
-              src="${item.imagemUrl}" 
-              loading="lazy" 
-              decoding="async"
-              alt="${item.nome}"
-            />`
-      : ""
+  const fragment = document.createDocumentFragment();
+
+  itens.forEach((item, index) => {
+    const card = document.createElement("div");
+    card.className = "card";
+    card.dataset.index = index;
+
+    if (isSafeImageUrl(item.imagemUrl)) {
+      const img = document.createElement("img");
+      img.src = item.imagemUrl;
+      img.loading = "lazy";
+      img.decoding = "async";
+      img.alt = item.nome;
+      card.appendChild(img);
     }
-      <h3>${item.nome}</h3>
-    </div>
-  `).join("");
+
+    const titulo = document.createElement("h3");
+    titulo.textContent = item.nome;
+    card.appendChild(titulo);
+
+    fragment.appendChild(card);
+  });
+
+  galeria.replaceChildren(fragment);
 }
 
 /* =====================
