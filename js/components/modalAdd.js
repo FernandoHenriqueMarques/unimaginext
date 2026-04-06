@@ -1,4 +1,4 @@
-import { adicionarBoneco } from "../bonecos.js";
+import { adicionarItem } from "../itens.js";
 import { uploadImagem } from "../storage.js";
 import { getUsuario } from "../state/session.js";
 
@@ -8,10 +8,10 @@ import { getUsuario } from "../state/session.js";
 const modalOverlay = document.getElementById("modalOverlay");
 const fecharModalBtn = document.getElementById("fecharModal");
 
-const form = document.getElementById("formBoneco");
-const nomeInput = document.getElementById("nomeBoneco");
-const descricaoInput = document.getElementById("descricaoBoneco");
-const imagemInput = document.getElementById("imagemBoneco");
+const form = document.getElementById("formItem");
+const nomeInput = document.getElementById("nomeItem");
+const descricaoInput = document.getElementById("descricaoItem");
+const imagemInput = document.getElementById("imagemItem");
 
 const previewContainer = document.getElementById("previewContainer");
 const previewImagem = document.getElementById("previewImagem");
@@ -131,7 +131,7 @@ form.addEventListener("submit", async (e) => {
       });
     }
 
-    await adicionarBoneco({
+    await adicionarItem({
       uid: user.uid,
       nome,
       descricao,

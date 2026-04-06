@@ -7,7 +7,7 @@ import {
   doc,
   getDocs,
   addDoc,
-  updateDoc,  
+  updateDoc,
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
@@ -16,9 +16,9 @@ import { app } from "./firebase.js";
 const db = getFirestore(app);
 
 // 🔍 já existente
-export async function listarBonecosDoUsuario(uid) {
-  const bonecosRef = collection(db, "bonecos");
-  const q = query(bonecosRef, where("ownerId", "==", uid));
+export async function listarItensDoUsuario(uid) {
+  const itensRef = collection(db, "itens");
+  const q = query(itensRef, where("ownerId", "==", uid));
   const snapshot = await getDocs(q);
 
   return snapshot.docs.map(doc => ({
@@ -27,14 +27,14 @@ export async function listarBonecosDoUsuario(uid) {
   }));
 }
 
-export async function excluirBoneco({ id }) {
-  const ref = doc(db, "bonecos", id);
+export async function excluirItem({ id }) {
+  const ref = doc(db, "itens", id);
   await deleteDoc(ref);
 }
 
 // ➕ NOVA FUNÇÃO
-export async function adicionarBoneco({ uid, nome, descricao, imagemUrl }) {
-  const ref = collection(db, "bonecos");
+export async function adicionarItem({ uid, nome, descricao, imagemUrl }) {
+  const ref = collection(db, "itens");
 
   await addDoc(ref, {
     ownerId: uid,
@@ -46,8 +46,8 @@ export async function adicionarBoneco({ uid, nome, descricao, imagemUrl }) {
   });
 }
 
-export async function atualizarBoneco({ id, dados }) {
-  const ref = doc(db, "bonecos", id);
+export async function atualizarItem({ id, dados }) {
+  const ref = doc(db, "itens", id);
   await updateDoc(ref, {
     ...dados,
     atualizadoEm: serverTimestamp()

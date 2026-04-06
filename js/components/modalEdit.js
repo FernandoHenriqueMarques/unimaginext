@@ -1,4 +1,4 @@
-import { atualizarBoneco } from "../bonecos.js";
+import { atualizarItem } from "../itens.js";
 import { uploadImagem, excluirImagemPorUrl } from "../storage.js";
 import {
   getUsuario,
@@ -158,7 +158,7 @@ formEditar.addEventListener("submit", async (e) => {
       });
     }
 
-    await atualizarBoneco({
+    await atualizarItem({
       id: item.id,
       dados: {
         nome,

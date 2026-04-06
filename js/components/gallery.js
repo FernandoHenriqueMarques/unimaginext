@@ -1,4 +1,4 @@
-import { listarBonecosDoUsuario } from "../bonecos.js";
+import { listarItensDoUsuario } from "../itens.js";
 import {
   getUsuario,
   setItemDetalhe,
@@ -100,7 +100,7 @@ export async function carregarGaleria() {
   // Delay mínimo para evitar "piscar" do skeleton
   await new Promise(resolve => setTimeout(resolve, 300));
 
-  const itens = await listarBonecosDoUsuario(user.uid);
+  const itens = await listarItensDoUsuario(user.uid);
   itensCache = ordenarItens(itens, ordenacaoAtual);
 
   renderGaleria(itens);

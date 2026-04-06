@@ -1,4 +1,4 @@
-import { excluirBoneco } from "../bonecos.js";
+import { excluirItem } from "../itens.js";
 import { excluirImagemPorUrl } from "../storage.js";
 import {
   getUsuario,
@@ -68,7 +68,7 @@ btnExcluirItem.addEventListener("click", async () => {
       await excluirImagemPorUrl(item.imagemUrl);
     }
 
-    await excluirBoneco({ id: item.id });
+    await excluirItem({ id: item.id });
 
     fecharDetalhe();
     document.dispatchEvent(new CustomEvent("gallery:refresh"));

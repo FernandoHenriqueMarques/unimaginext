@@ -1,6 +1,6 @@
 # unimaginext
 
-**unimaginext** é um projeto pessoal de galeria digital para coleções de bonecos, inspirado inicialmente na linha **Imaginext**, mas com um conceito mais amplo:
+**unimaginext** é um projeto pessoal de galeria digital para coleções de itens, inspirado inicialmente na linha **Imaginext**, mas com um conceito mais amplo:
 
 > **“Ideias não imaginadas antes.”**
 
@@ -53,7 +53,7 @@ Firebase Storage (Imagens)
 
 ## 🗄️ Banco de Dados
 
-Coleção principal: `bonecos`
+Coleção principal: `itens`
 
 ```json
 {
@@ -88,7 +88,7 @@ Coleção principal: `bonecos`
    └─ services/
       ├─ firebase.js
       ├─ auth.js
-      ├─ bonecos.js
+      ├─ itens.js
       └─ storage.js
 ```
 

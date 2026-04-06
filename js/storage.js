@@ -17,7 +17,7 @@ function sanitizeFileName(name) {
 
 export async function uploadImagem({ uid, file }) {
   const safeName = sanitizeFileName(file.name);
-  const caminho = `bonecos/${uid}/${Date.now()}_${safeName}`;
+  const caminho = `itens/${uid}/${Date.now()}_${safeName}`;
   const storageRef = ref(storage, caminho);
 
   await uploadBytes(storageRef, file);
