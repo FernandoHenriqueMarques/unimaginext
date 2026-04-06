@@ -103,7 +103,7 @@ export async function carregarGaleria() {
   const itens = await listarItensDoUsuario(user.uid);
   itensCache = ordenarItens(itens, ordenacaoAtual);
 
-  renderGaleria(itens);
+  renderGaleria(itensCache);
 }
 
 /* =====================
