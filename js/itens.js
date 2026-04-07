@@ -3,28 +3,55 @@ import {
   collection,
   query,
   where,
+  orderBy,
+  limit,
+  startAfter,
   deleteDoc,
   doc,
   getDocs,
   addDoc,
   updateDoc,
-  serverTimestamp
+  serverTimestamp,
+  getCountFromServer
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 import { app } from "./firebase.js";
 
 const db = getFirestore(app);
 
-// 🔍 já existente
-export async function listarItensDoUsuario(uid) {
-  const itensRef = collection(db, "itens");
-  const q = query(itensRef, where("ownerId", "==", uid));
-  const snapshot = await getDocs(q);
+const LIMITE = 50;
 
-  return snapshot.docs.map(doc => ({
-    id: doc.id,
-    ...doc.data()
-  }));
+const ORDENACAO_MAP = {
+  recentes: ["criadoEm", "desc"],
+  antigos:  ["criadoEm", "asc"],
+  az:       ["nome",     "asc"],
+  za:       ["nome",     "desc"],
+};
+
+export async function contarItensDoUsuario(uid) {
+  const q = query(collection(db, "itens"), where("ownerId", "==", uid));
+  const snapshot = await getCountFromServer(q);
+  return snapshot.data().count;
+}
+
+export async function listarItensDoUsuarioPaginado(uid, { ordenacao = "recentes", cursor = null } = {}) {
+  const [campo, direcao] = ORDENACAO_MAP[ordenacao] ?? ORDENACAO_MAP.recentes;
+
+  const constraints = [
+    where("ownerId", "==", uid),
+    orderBy(campo, direcao),
+    limit(LIMITE),
+  ];
+
+  if (cursor) constraints.push(startAfter(cursor));
+
+  const snapshot = await getDocs(query(collection(db, "itens"), ...constraints));
+
+  return {
+    itens:        snapshot.docs.map(d => ({ id: d.id, ...d.data() })),
+    ultimoCursor: snapshot.docs.at(-1) ?? null,
+    temMais:      snapshot.docs.length === LIMITE,
+  };
 }
 
 export async function excluirItem({ id }) {
