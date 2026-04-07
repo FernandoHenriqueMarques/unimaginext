@@ -2,61 +2,37 @@
 .topbar {
   position: sticky;
   top: 0;
-  height: 60px;
-  background: var(--color-accent-gradient);
+  height: 56px;
+  background: var(--color-surface);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 24px;
-  box-shadow: 0 4px 20px var(--color-accent-shadow);
+  padding: 0 20px;
+  box-shadow: 0 1px 6px var(--color-shadow-soft);
   z-index: 10;
 }
 
 .logo {
-  font-weight: 700;
-  font-size: 1.2rem;
-  color: #ffffff;
-  letter-spacing: -0.02em;
-}
-
-#loginGoogle {
-  background: rgba(255, 255, 255, 0.2);
-  color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  border-radius: 8px;
-  padding: 8px 16px;
   font-weight: 600;
-  backdrop-filter: blur(4px);
-}
-
-#loginGoogle:hover {
-  background: rgba(255, 255, 255, 0.32);
-  opacity: 1;
+  font-size: 1.1rem;
 }
 
 .avatar {
-  width: 34px;
-  height: 34px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.25);
-  border: 2px solid rgba(255, 255, 255, 0.6);
+  background: var(--color-border);
   cursor: pointer;
-  transition: border-color 0.2s;
-}
-
-.avatar:hover {
-  border-color: #ffffff;
 }
 
 /* ===== Menu do Avatar ===== */
 .avatar-menu {
   position: absolute;
-  top: 64px;
+  top: 56px;
   right: 20px;
   background: var(--color-elevated);
-  border-radius: 14px;
-  box-shadow: 0 12px 36px var(--color-shadow-strong);
-  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px var(--color-shadow-strong);
   padding: 8px;
   display: flex;
   flex-direction: column;
@@ -68,12 +44,10 @@
   background: transparent;
   color: var(--color-text);
   text-align: left;
-  padding: 10px 14px;
+  padding: 10px 12px;
   border-radius: 8px;
-  font-weight: 500;
 }
 
 .avatar-menu button:hover {
-  background: var(--color-bg);
-  color: var(--color-accent);
+  background: var(--color-border);
 }

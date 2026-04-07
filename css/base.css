@@ -8,49 +8,43 @@
 /* ===== Base ===== */
 :root {
   color-scheme: light;
-  --color-bg: #f5f3ff;
+  --color-bg: #f9fafb;
   --color-surface: #ffffff;
   --color-elevated: #ffffff;
-  --color-text: #1e1b4b;
+  --color-text: #111827;
   --color-muted: #6b7280;
   --color-border: #e5e7eb;
   --color-border-strong: #d1d5db;
-  --color-accent: #6366f1;
-  --color-accent-2: #8b5cf6;
-  --color-accent-gradient: linear-gradient(135deg, #6366f1, #8b5cf6);
-  --color-accent-shadow: rgba(99, 102, 241, 0.25);
+  --color-accent: #2563eb;
   --color-accent-contrast: #ffffff;
   --color-skeleton-1: #e5e7eb;
   --color-skeleton-2: #f3f4f6;
-  --color-shadow-soft: rgba(99, 102, 241, 0.08);
-  --color-shadow-strong: rgba(99, 102, 241, 0.18);
-  --color-overlay: rgba(30, 27, 75, 0.45);
+  --color-shadow-soft: rgba(0, 0, 0, 0.06);
+  --color-shadow-strong: rgba(0, 0, 0, 0.12);
+  --color-overlay: rgba(0, 0, 0, 0.4);
 }
 
 body.theme-dark {
   color-scheme: dark;
-  --color-bg: #0f0e1a;
-  --color-surface: #17162b;
-  --color-elevated: #1e1c35;
+  --color-bg: #0f172a;
+  --color-surface: #141f36;
+  --color-elevated: #1c2945;
   --color-text: #e2e8f0;
   --color-muted: #94a3b8;
-  --color-border: #2e2b4f;
-  --color-border-strong: #3d3a6b;
-  --color-accent: #818cf8;
-  --color-accent-2: #a78bfa;
-  --color-accent-gradient: linear-gradient(135deg, #818cf8, #a78bfa);
-  --color-accent-shadow: rgba(129, 140, 248, 0.3);
-  --color-accent-contrast: #0f0e1a;
-  --color-skeleton-1: #1e1c35;
-  --color-skeleton-2: #262440;
-  --color-shadow-soft: rgba(15, 14, 26, 0.5);
-  --color-shadow-strong: rgba(15, 14, 26, 0.75);
-  --color-overlay: rgba(5, 4, 15, 0.65);
+  --color-border: #22324f;
+  --color-border-strong: #2f4366;
+  --color-accent: #60a5fa;
+  --color-accent-contrast: #0f172a;
+  --color-skeleton-1: #1f2a44;
+  --color-skeleton-2: #24324f;
+  --color-shadow-soft: rgba(15, 23, 42, 0.5);
+  --color-shadow-strong: rgba(15, 23, 42, 0.7);
+  --color-overlay: rgba(2, 6, 23, 0.6);
 }
 
 body {
   margin: 0;
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
     Roboto, Helvetica, Arial, sans-serif;
   background: var(--color-bg);
   color: var(--color-text);
