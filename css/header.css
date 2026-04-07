@@ -22,6 +22,8 @@
   height: 32px;
   border-radius: 50%;
   background: var(--color-border);
+  background-size: cover;
+  background-position: center;
   cursor: pointer;
 }
 
@@ -40,7 +42,13 @@
   z-index: 20;
 }
 
+.avatar-menu {
+  min-width: 160px;
+}
+
 .avatar-menu button {
+  display: block;
+  width: 100%;
   background: transparent;
   color: var(--color-text);
   text-align: left;

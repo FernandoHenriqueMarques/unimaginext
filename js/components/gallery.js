@@ -6,6 +6,7 @@ import {
 } from "../state/session.js";
 
 const galeria = document.getElementById("galeria");
+const contadorItens = document.getElementById("contadorItens");
 
 let itensCache = [];
 let ordenacaoAtual = "recentes";
@@ -26,11 +27,14 @@ function isSafeImageUrl(url) {
 
 function renderGaleria(itens) {
   if (itens.length === 0) {
-    const vazio = document.createElement("p");
-    vazio.textContent = "Sua galeria está vazia.";
-    galeria.replaceChildren(vazio);
+    setOrdenacaoVisivel(false);
+    contadorItens.textContent = "Sua galeria está vazia.";
+    galeria.replaceChildren();
     return;
   }
+
+  setOrdenacaoVisivel(true);
+  contadorItens.textContent = `${itens.length} ${itens.length === 1 ? "item" : "itens"}`;
 
   const fragment = document.createDocumentFragment();
 
@@ -115,6 +119,8 @@ document.addEventListener("user:logout", () => {
   itensCache = [];
   clearItemDetalhe();
   galeria.innerHTML = "";
+  setOrdenacaoVisivel(false);
+  contadorItens.textContent = "Gerencie seus itens pessoais";
 });
 
 document.addEventListener("gallery:refresh", carregarGaleria);
@@ -150,6 +156,10 @@ function ordenarItens(itens, tipo) {
 }
 
 const selectOrdenacao = document.getElementById("ordenacaoGaleria");
+
+function setOrdenacaoVisivel(visivel) {
+  selectOrdenacao.hidden = !visivel;
+}
 
 selectOrdenacao.addEventListener("change", (e) => {
   ordenacaoAtual = e.target.value;

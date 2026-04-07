@@ -16,7 +16,13 @@
   font-weight: 600;
 }
 
-.hero p {
+.hero-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   margin-top: 4px;
+}
+
+.hero-bar p {
   color: var(--color-muted);
 }
