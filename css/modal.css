@@ -85,6 +85,14 @@
   display: none;
 }
 
+.preview img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 10px;
+  background: var(--color-border);
+}
+
 /* ===== Ações ===== */
 .modal-actions {
   margin-top: 16px;
@@ -107,9 +115,10 @@
 
 .detalhe-imagem {
   width: 100%;
-  aspect-ratio: 1 / 1;
-  object-fit: cover;
+  max-height: 55vh;
+  object-fit: contain;
   border-radius: 14px;
+  background: var(--color-border);
 }
 
 .detalhe-descricao {
