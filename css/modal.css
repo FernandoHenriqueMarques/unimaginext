@@ -118,14 +118,6 @@
   line-height: 1.5;
 }
 
-/* ===== Header com ações ===== */
-.modal-header-actions {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  align-items: center;
-  gap: 12px;
-}
-
 .btn-danger-icon {
   background: transparent;
   color: var(--color-muted);
