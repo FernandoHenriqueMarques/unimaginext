@@ -1,0 +1,341 @@
+/* =====================================================
+   LIQUID GLASS — Superfícies, refração e profundidade
+   Aplicado sobre os estilos existentes, sem alterar cores.
+===================================================== */
+
+/* ============================================================
+   VARIÁVEIS DE VIDRO
+   Light e dark têm tratamentos distintos — dark é mais dramático
+============================================================ */
+:root {
+  --lg-bg-light:      rgba(255, 255, 255, 0.38);
+  --lg-border-light:  rgba(255, 255, 255, 0.55);
+  --lg-spec-light:    rgba(255, 255, 255, 0.75);
+  --lg-blur:          blur(52px) saturate(210%) brightness(108%);
+  --lg-blur-heavy:    blur(68px) saturate(230%) brightness(112%);
+
+  --lg-bg-dark:       rgba(14, 22, 42, 0.48);
+  --lg-border-dark:   rgba(255, 255, 255, 0.10);
+  --lg-spec-dark:     rgba(255, 255, 255, 0.13);
+}
+
+/* ============================================================
+   TOPBAR
+============================================================ */
+.topbar {
+  background: var(--lg-bg-light);
+  backdrop-filter: var(--lg-blur);
+  -webkit-backdrop-filter: var(--lg-blur);
+  border-bottom: 1px solid var(--lg-border-light);
+  box-shadow:
+    inset 0 1.5px 0 var(--lg-spec-light),
+    0 1px 0 rgba(0, 0, 0, 0.04),
+    0 4px 12px rgba(0, 0, 0, 0.06),
+    0 12px 32px rgba(0, 0, 0, 0.05);
+  position: relative;
+}
+
+/* Garante que logo e nav ficam acima das camadas de vidro */
+.topbar .logo,
+.topbar-nav {
+  position: relative;
+  z-index: 1;
+}
+
+/* Specular: faixa de luz no topo */
+.topbar::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 55%;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.48) 0%,
+    rgba(255, 255, 255, 0.08) 60%,
+    transparent 100%
+  );
+  filter: url(#lg-refract);
+  pointer-events: none;
+}
+
+/* Cáustica: brilho lateral esquerdo */
+.topbar::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at 18% 50%,
+    rgba(255, 255, 255, 0.22) 0%,
+    transparent 55%
+  );
+  filter: url(#lg-caustic);
+  pointer-events: none;
+  mix-blend-mode: overlay;
+}
+
+body.theme-dark .topbar {
+  background: var(--lg-bg-dark);
+  border-bottom: 1px solid var(--lg-border-dark);
+  box-shadow:
+    inset 0 1.5px 0 var(--lg-spec-dark),
+    0 1px 0 rgba(0, 0, 0, 0.25),
+    0 4px 16px rgba(0, 0, 0, 0.35),
+    0 16px 40px rgba(0, 0, 0, 0.22);
+}
+
+body.theme-dark .topbar::before {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.11) 0%,
+    rgba(255, 255, 255, 0.02) 55%,
+    transparent 100%
+  );
+}
+
+/* ============================================================
+   AVATAR MENU
+============================================================ */
+.avatar-menu {
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: var(--lg-blur);
+  -webkit-backdrop-filter: var(--lg-blur);
+  border: 1px solid var(--lg-border-light);
+  overflow: hidden;
+  box-shadow:
+    inset 0 1.5px 0 var(--lg-spec-light),
+    0 4px 8px rgba(0, 0, 0, 0.06),
+    0 10px 20px rgba(0, 0, 0, 0.08),
+    0 24px 48px rgba(0, 0, 0, 0.10),
+    0 48px 80px rgba(0, 0, 0, 0.06);
+}
+
+.avatar-menu::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 40%;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.45) 0%,
+    transparent 100%
+  );
+  filter: url(#lg-refract);
+  pointer-events: none;
+}
+
+body.theme-dark .avatar-menu {
+  background: rgba(14, 22, 42, 0.88);
+  border: 1px solid var(--lg-border-dark);
+  box-shadow:
+    inset 0 1.5px 0 var(--lg-spec-dark),
+    0 8px 20px rgba(0, 0, 0, 0.45),
+    0 24px 48px rgba(0, 0, 0, 0.40),
+    0 48px 80px rgba(0, 0, 0, 0.25);
+}
+
+body.theme-dark .avatar-menu::before {
+  background: linear-gradient(180deg, rgba(255,255,255,0.08) 0%, transparent 100%);
+}
+
+/* ============================================================
+   CARDS DA GALERIA
+============================================================ */
+.card {
+  position: relative;
+  background: var(--lg-bg-light);
+  backdrop-filter: var(--lg-blur);
+  -webkit-backdrop-filter: var(--lg-blur);
+  border: 1px solid var(--lg-border-light);
+  box-shadow:
+    inset 0 1.5px 0 var(--lg-spec-light),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.15),
+    0 2px 4px rgba(0, 0, 0, 0.04),
+    0 6px 12px rgba(0, 0, 0, 0.06),
+    0 14px 28px rgba(0, 0, 0, 0.08),
+    0 32px 56px rgba(0, 0, 0, 0.06);
+}
+
+/* Specular + refração no topo do card */
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 45%;
+  border-radius: inherit;
+  background:
+    radial-gradient(ellipse at 28% 0%, rgba(255,255,255,0.55) 0%, transparent 60%),
+    linear-gradient(180deg, rgba(255,255,255,0.32) 0%, transparent 100%);
+  filter: url(#lg-refract);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Cáustica lateral */
+.card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    ellipse at 80% 20%,
+    rgba(255, 255, 255, 0.18) 0%,
+    transparent 55%
+  );
+  filter: url(#lg-caustic);
+  pointer-events: none;
+  z-index: 1;
+  mix-blend-mode: overlay;
+}
+
+.card:hover {
+  border-color: rgba(255, 255, 255, 0.70);
+  box-shadow:
+    inset 0 1.5px 0 rgba(255, 255, 255, 0.90),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.20),
+    0 4px 8px rgba(0, 0, 0, 0.06),
+    0 10px 20px rgba(0, 0, 0, 0.10),
+    0 24px 48px rgba(0, 0, 0, 0.14),
+    0 48px 96px rgba(0, 0, 0, 0.10),
+    0 0 0 3px rgba(255, 255, 255, 0.12);
+}
+
+body.theme-dark .card {
+  background: var(--lg-bg-dark);
+  border: 1px solid var(--lg-border-dark);
+  box-shadow:
+    inset 0 1.5px 0 var(--lg-spec-dark),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.03),
+    0 4px 8px rgba(0, 0, 0, 0.30),
+    0 10px 20px rgba(0, 0, 0, 0.35),
+    0 24px 48px rgba(0, 0, 0, 0.28),
+    0 48px 80px rgba(0, 0, 0, 0.18);
+}
+
+body.theme-dark .card::before {
+  background:
+    radial-gradient(ellipse at 28% 0%, rgba(255,255,255,0.14) 0%, transparent 60%),
+    linear-gradient(180deg, rgba(255,255,255,0.07) 0%, transparent 100%);
+}
+
+body.theme-dark .card:hover {
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow:
+    inset 0 1.5px 0 rgba(255, 255, 255, 0.20),
+    0 8px 16px rgba(0, 0, 0, 0.45),
+    0 20px 40px rgba(0, 0, 0, 0.40),
+    0 40px 80px rgba(0, 0, 0, 0.30),
+    0 0 0 3px rgba(255, 255, 255, 0.06);
+}
+
+/* Garante que img e h3 ficam acima das camadas de vidro */
+.card img,
+.card h3 {
+  position: relative;
+  z-index: 2;
+}
+
+/* ============================================================
+   MODAL OVERLAY
+============================================================ */
+.modal-overlay {
+  background: rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(14px) saturate(150%);
+  -webkit-backdrop-filter: blur(14px) saturate(150%);
+}
+
+/* ============================================================
+   MODAL PANEL
+============================================================ */
+.modal {
+  position: relative;
+  background: var(--lg-bg-light);
+  backdrop-filter: var(--lg-blur-heavy);
+  -webkit-backdrop-filter: var(--lg-blur-heavy);
+  border: 1px solid var(--lg-border-light);
+  overflow: hidden;
+  box-shadow:
+    inset 0 1.5px 0 var(--lg-spec-light),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.12),
+    0 4px 8px rgba(0, 0, 0, 0.06),
+    0 10px 20px rgba(0, 0, 0, 0.09),
+    0 24px 48px rgba(0, 0, 0, 0.12),
+    0 56px 96px rgba(0, 0, 0, 0.10),
+    0 96px 160px rgba(0, 0, 0, 0.07);
+}
+
+/* Specular no topo do modal */
+.modal::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 38%;
+  background:
+    radial-gradient(ellipse at 35% 0%, rgba(255,255,255,0.55) 0%, transparent 55%),
+    linear-gradient(180deg, rgba(255,255,255,0.38) 0%, transparent 100%);
+  filter: url(#lg-refract);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Cáustica lateral no modal */
+.modal::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at 85% 15%,
+    rgba(255, 255, 255, 0.20) 0%,
+    transparent 50%
+  );
+  filter: url(#lg-caustic);
+  pointer-events: none;
+  z-index: 0;
+  mix-blend-mode: overlay;
+}
+
+/* Garante que conteúdo interno fica acima das camadas de vidro */
+.modal > * {
+  position: relative;
+  z-index: 1;
+}
+
+body.theme-dark .modal {
+  background: var(--lg-bg-dark);
+  border: 1px solid var(--lg-border-dark);
+  box-shadow:
+    inset 0 1.5px 0 var(--lg-spec-dark),
+    0 8px 16px rgba(0, 0, 0, 0.50),
+    0 24px 48px rgba(0, 0, 0, 0.55),
+    0 56px 96px rgba(0, 0, 0, 0.40),
+    0 96px 160px rgba(0, 0, 0, 0.25);
+}
+
+body.theme-dark .modal::before {
+  background:
+    radial-gradient(ellipse at 35% 0%, rgba(255,255,255,0.12) 0%, transparent 55%),
+    linear-gradient(180deg, rgba(255,255,255,0.07) 0%, transparent 100%);
+}
+
+/* ============================================================
+   FAB
+============================================================ */
+.fab {
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    inset 0 1.5px 0 rgba(255, 255, 255, 0.55),
+    0 4px 8px rgba(0, 0, 0, 0.12),
+    0 12px 24px rgba(0, 0, 0, 0.16),
+    0 24px 48px rgba(0, 0, 0, 0.12);
+}
+
+.fab::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 50%;
+  border-radius: inherit;
+  background: linear-gradient(180deg, rgba(255,255,255,0.45) 0%, transparent 100%);
+  filter: url(#lg-refract);
+  pointer-events: none;
+}

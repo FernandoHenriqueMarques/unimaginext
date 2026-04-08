@@ -2,24 +2,30 @@
 .topbar {
   position: sticky;
   top: 0;
-  height: 56px;
+  height: 68px;
   background: var(--color-surface);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 20px;
+  padding: 0 24px;
   box-shadow: 0 1px 6px var(--color-shadow-soft);
   z-index: 10;
 }
 
 .logo {
-  font-weight: 600;
-  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+}
+
+.logo-img {
+  height: 52px;
+  width: auto;
+  display: block;
 }
 
 .avatar {
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   background: var(--color-border);
   background-size: cover;
@@ -30,7 +36,7 @@
 /* ===== Menu do Avatar ===== */
 .avatar-menu {
   position: absolute;
-  top: 56px;
+  top: 68px;
   right: 20px;
   background: var(--color-elevated);
   border-radius: 12px;

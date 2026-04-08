@@ -6,6 +6,7 @@
   <title>unimaginext</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
 
@@ -13,7 +14,9 @@
 
   <!-- ================= TOP BAR ================= -->
   <header class="topbar">
-    <div class="logo">unimaginext</div>
+    <div class="logo">
+      <img src="logo.png" alt="unimaginext" class="logo-img" />
+    </div>
 
     <!-- Login (somente deslogado) -->
     <button id="loginGoogle" type="button">
@@ -183,6 +186,25 @@
 
     </div>
   </div>
+
+  <!-- ================= LIQUID GLASS FILTERS ================= -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+    <defs>
+      <!-- Refração nas bordas do vidro -->
+      <filter id="lg-refract" x="-15%" y="-15%" width="130%" height="130%" color-interpolation-filters="sRGB">
+        <feTurbulence type="fractalNoise" baseFrequency="0.013 0.019" numOctaves="3" seed="6" result="noise"/>
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="9" xChannelSelector="R" yChannelSelector="G"/>
+      </filter>
+      <!-- Cáusticas de luz (brilho interno) -->
+      <filter id="lg-caustic" x="0%" y="0%" width="100%" height="100%" color-interpolation-filters="sRGB">
+        <feTurbulence type="fractalNoise" baseFrequency="0.025 0.035" numOctaves="4" seed="12" result="turb"/>
+        <feColorMatrix type="matrix"
+          values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 6 -2.5"
+          in="turb" result="caustic"/>
+        <feComposite in="caustic" in2="SourceGraphic" operator="in"/>
+      </filter>
+    </defs>
+  </svg>
 
   <!-- ================= SCRIPT ================= -->
   <script type="module" src="js/app.js"></script>
